@@ -1,0 +1,4 @@
+import sys
+str = sys.stdin.readline()
+for c in 'ACGT':
+    print(str.count(c), end=' ')
