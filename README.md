@@ -1,1 +1,1 @@
-#This is my README
+#This is a repository of my personal solutions to the bioinfomatics problems offered by rosalind.info.  

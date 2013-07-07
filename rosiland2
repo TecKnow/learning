@@ -1,9 +1,0 @@
-import sys
-str = sys.stdin.readline()
-res = ''
-for c in str:
-    if c == 'T':
-        res = res +'U'
-    else:
-        res = res + c
-print(res)
