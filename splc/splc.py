@@ -1,3 +1,9 @@
+"""
+Problem  : RNA Splicing
+URL      : http://rosalind.info/problems/splc/
+Author   : David P. Perkins
+"""
+
 import fasta
 
 def getCodingRegion(DNAString, introns):
