@@ -3,7 +3,7 @@ Problem  : Calculating Protein Mass
 URL      : http://rosalind.info/problems/prtm/
 Author   : David P. Perkins
 """
-"""
+monoIsoMassTable =  """
 A   71.03711
 C   103.00919
 D   115.02694
@@ -26,4 +26,17 @@ W   186.07931
 Y   163.06333
 """
 
-def protMass
+monoIsoMassWords = monoIsoMassTable.strip().split()
+protMassDict = dict(zip(monoIsoMassWords[::2], map(float, monoIsoMassWords[1::2])))
+del(monoIsoMassWords)
+
+def protMass(protString):
+    sum = 0
+    for prot in protString:
+        sum += protMassDict[prot]
+    return sum
+
+if __name__ == "__main__":
+    import sys
+    print(protMass(sys.stdin.readline().strip()))
+    
