@@ -14,25 +14,29 @@ import deepFreeze from "deep-freeze";
 // // Learn more about service workers: http://bit.ly/CRA-PWA
 // serviceWorker.unregister();
 
-const toggleTodo = todo => {
-  return { ...todo, completed: !todo.completed };
+const todos = (state = [], action) => {
+  switch (action.type) {
+    default:
+      return state;
+    case "ADD_TODO":
+      return [...state, { id: action.id, text: action.text, completed: false }];
+  }
 };
 
-const testToggleTodo = () => {
-  const todoBefore = {
+const testAddTodo = () => {
+  const stateBefore = [];
+  const action = {
+    type: "ADD_TODO",
     id: 0,
-    text: "Learn Redux",
-    completed: false
+    text: "Learn Redux"
   };
-  const todoAfter = {
-    id: 0,
-    text: "Learn Redux",
-    completed: true
-  };
+  const stateAfter = [{ id: 0, text: "Learn Redux", completed: false }];
 
-  deepFreeze(todoBefore);
-  expect(toggleTodo(todoBefore)).toEqual(todoAfter);
+  deepFreeze(stateBefore);
+  deepFreeze(action);
+
+  expect(todos(stateBefore, action)).toEqual(stateAfter);
 };
 
-testToggleTodo();
-console.log("All tests passed.");
+testAddTodo();
+console.log("All tests passed");
