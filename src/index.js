@@ -1,7 +1,7 @@
 // import React from "react";
 // import ReactDOM from "react-dom";
 import "./index.css";
-import { combineReducers, createStore } from "redux";
+import {createStore } from "redux";
 import expect from "expect";
 import deepFreeze from "deep-freeze";
 // import App from './App';
@@ -65,6 +65,15 @@ const visibilityFilter = (
     default:
       return state;
   }
+};
+
+const combineReducers = (reducers) => {
+	return (state = {}, action) => {
+		Object.keys(reducers).reduce((nextState, key) => {
+			nextState[key] = reducers[key](state[key], action);
+			return nextState;
+		}, {});
+	};
 };
 
 const todoApp = combineReducers({
