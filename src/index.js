@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
 import { combineReducers, createStore } from "redux";
-import expect from "expect";
-import deepFreeze from "deep-freeze";
 // import App from './App';
 // import * as serviceWorker from './serviceWorker';
 
@@ -66,7 +64,6 @@ const todoApp = combineReducers({
   visibilityFilter
 });
 
-const store = createStore(todoApp);
 
 const Link = ({ active, children, onClick }) => {
   if (active) {
@@ -87,8 +84,9 @@ const Link = ({ active, children, onClick }) => {
 
 class FilterLink extends Component {
   componentDidMount() {
+  	const { store } = this.props;
     this.unsubscribe = store.subscribe(() => this.forceUpdate());
-  }
+  	}
 
   componentWillUnmount() {
     this.unsubscribe();
@@ -96,6 +94,7 @@ class FilterLink extends Component {
 
   render() {
     const props = this.props;
+    const {store} = props;
     const state = store.getState();
     return (
       <Link
@@ -113,13 +112,13 @@ class FilterLink extends Component {
   }
 }
 
-const Footer = () => {
+const Footer = ({store}) => {
   return (
     <p>
       {" "}
-      <FilterLink filter="SHOW_ALL">All</FilterLink>{" "}
-      <FilterLink filter="SHOW_ACTIVE">Active</FilterLink>{" "}
-      <FilterLink filter="SHOW_COMPLETED">Completed</FilterLink>
+      <FilterLink filter="SHOW_ALL" store={store} >All</FilterLink>{" "}
+      <FilterLink filter="SHOW_ACTIVE" store={store}>Active</FilterLink>{" "}
+      <FilterLink filter="SHOW_COMPLETED" store={store}>Completed</FilterLink>
     </p>
   );
 };
@@ -143,7 +142,7 @@ const TodoList = ({ todos, onTodoClick }) => (
   </ul>
 );
 
-const AddTodo = () => {
+const AddTodo = ({store}) => {
   let input;
   return (
     <div>
@@ -184,6 +183,7 @@ const getVisibleTodos = (todos, filter) => {
 
 class VisibleTodoList extends Component {
   componentDidMount() {
+  	const { store } = this.props;
     this.unsubscribe = store.subscribe(() => this.forceUpdate());
   }
 
@@ -192,6 +192,7 @@ class VisibleTodoList extends Component {
   }
 
   render() {
+  	const { store } = this.props;
     const state = store.getState();
 
     return (
@@ -209,115 +210,12 @@ class VisibleTodoList extends Component {
 }
 
 let nextTodoID = 0;
-const TodoApp = () => (
+const TodoApp = ({store}) => (
   <div>
-    <AddTodo />
-    <VisibleTodoList />
-    <Footer />
+    <AddTodo store={store} />
+    <VisibleTodoList store={store} />
+    <Footer store={store} />
   </div>
 );
 
-ReactDOM.render(<TodoApp />, document.getElementById("root"));
-
-console.log("Initial state:");
-console.log(store.getState());
-console.log("--------------");
-
-console.log("Dispatching ADD_TODO.");
-store.dispatch({
-  type: "ADD_TODO",
-  id: nextTodoID++,
-  text: "Learn Redux"
-});
-console.log("Current state:");
-console.log(store.getState());
-console.log("--------------");
-
-console.log("Dispatching ADD_TODO.");
-store.dispatch({
-  type: "ADD_TODO",
-  id: nextTodoID++,
-  text: "Go shopping"
-});
-console.log("Current state:");
-console.log(store.getState());
-console.log("--------------");
-
-console.log("Dispatching TOGGLE_TODO.");
-store.dispatch({
-  type: "TOGGLE_TODO",
-  id: 0
-});
-console.log("Current state:");
-console.log(store.getState());
-console.log("--------------");
-
-console.log("Dispatching SET_VISIBILITY_FILTER");
-store.dispatch({
-  type: "SET_VISIBILITY_FILTER",
-  filter: "SHOW_COMPLETED"
-});
-console.log("Current state:");
-console.log(store.getState());
-console.log("--------------");
-
-const testAddTodo = () => {
-  const stateBefore = [];
-  const action = {
-    type: "ADD_TODO",
-    id: 0,
-    text: "Learn Redux"
-  };
-  const stateAfter = [
-    {
-      id: 0,
-      text: "Learn Redux",
-      completed: false
-    }
-  ];
-
-  deepFreeze(stateBefore);
-  deepFreeze(action);
-
-  expect(todos(stateBefore, action)).toEqual(stateAfter);
-};
-
-const testToggleTodo = () => {
-  const stateBefore = [
-    {
-      id: 0,
-      text: "Learn Redux",
-      completed: false
-    },
-    {
-      id: 1,
-      text: "Go shopping",
-      completed: false
-    }
-  ];
-  const action = {
-    type: "TOGGLE_TODO",
-    id: 1
-  };
-  const stateAfter = [
-    {
-      id: 0,
-      text: "Learn Redux",
-      completed: false
-    },
-    {
-      id: 1,
-      text: "Go shopping",
-      completed: true
-    }
-  ];
-
-  deepFreeze(stateBefore);
-  deepFreeze(action);
-
-  expect(todos(stateBefore, action)).toEqual(stateAfter);
-};
-
-testAddTodo();
-testToggleTodo();
-console.log("All tests passed.");
+ReactDOM.render(<TodoApp store={createStore(todoApp)}/>, document.getElementById("root"));
