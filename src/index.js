@@ -87,13 +87,12 @@ const mapStateToLinkProps = (state, ownProps) => ({
   active: ownProps.filter === state.visibilityFilter
 });
 const mapDispatchToLinkProps = (dispatch, ownProps) => ({
-  onClick: () =>
-    dispatch({
-      type: "SET_VISIBILITY_FILTER",
-      filter: ownProps.filter
-    })
+  onClick: () => dispatch(setVisibilityFilter(ownProps.filter))
 });
-const FilterLink = connect(mapStateToLinkProps, mapDispatchToLinkProps)(Link);
+const FilterLink = connect(
+  mapStateToLinkProps,
+  mapDispatchToLinkProps
+)(Link);
 
 const Footer = (props, { store }) => {
   return (
@@ -144,11 +143,7 @@ let AddTodo = ({ dispatch }) => {
       />
       <button
         onClick={() => {
-          dispatch({
-            type: "ADD_TODO",
-            text: input.value,
-            id: nextTodoID++
-          });
+          dispatch(addTodo(input.value));
           input.value = "";
         }}
       >
@@ -177,11 +172,7 @@ const mapStateToTodoListProps = state => ({
 });
 
 const mapDispatchToTodoListProps = dispatch => ({
-  onTodoClick: id =>
-    dispatch({
-      type: "TOGGLE_TODO",
-      id
-    })
+  onTodoClick: id => dispatch(toggleTodo(id))
 });
 
 const VisibleTodoList = connect(
@@ -190,6 +181,20 @@ const VisibleTodoList = connect(
 )(TodoList);
 
 let nextTodoID = 0;
+const addTodo = text => ({
+  type: "ADD_TODO",
+  text: text,
+  id: nextTodoID++
+});
+const setVisibilityFilter = filter => ({
+  type: "SET_VISIBILITY_FILTER",
+  filter: filter
+});
+const toggleTodo = id => ({
+  type: "TOGGLE_TODO",
+  id
+});
+
 const TodoApp = (props, { store }) => (
   <div>
     <AddTodo />
