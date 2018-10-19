@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import ReactDOM from "react-dom";
 import { connect, Provider } from "react-redux";
@@ -83,36 +83,17 @@ const Link = ({ active, children, onClick }) => {
   );
 };
 
-class FilterLink extends Component {
-  componentDidMount() {
-    const { store } = this.context;
-    this.unsubscribe = store.subscribe(() => this.forceUpdate());
-  }
-
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-
-  render() {
-    const props = this.props;
-    const { store } = this.context;
-    const state = store.getState();
-    return (
-      <Link
-        active={props.filter === state.visibilityFilter}
-        onClick={() =>
-          store.dispatch({
-            type: "SET_VISIBILITY_FILTER",
-            filter: props.filter
-          })
-        }
-      >
-        {props.children}
-      </Link>
-    );
-  }
-}
-FilterLink.contextTypes = { store: PropTypes.object };
+const mapStateToLinkProps = (state, ownProps) => ({
+  active: ownProps.filter === state.visibilityFilter
+});
+const mapDispatchToLinkProps = (dispatch, ownProps) => ({
+  onClick: () =>
+    dispatch({
+      type: "SET_VISIBILITY_FILTER",
+      filter: ownProps.filter
+    })
+});
+const FilterLink = connect(mapStateToLinkProps, mapDispatchToLinkProps)(Link);
 
 const Footer = (props, { store }) => {
   return (
@@ -151,7 +132,7 @@ const TodoList = ({ todos, onTodoClick }) => (
   </ul>
 );
 
-const AddTodo = (props, { store }) => {
+let AddTodo = ({ dispatch }) => {
   let input;
   return (
     <div>
@@ -163,7 +144,7 @@ const AddTodo = (props, { store }) => {
       />
       <button
         onClick={() => {
-          store.dispatch({
+          dispatch({
             type: "ADD_TODO",
             text: input.value,
             id: nextTodoID++
@@ -176,7 +157,7 @@ const AddTodo = (props, { store }) => {
     </div>
   );
 };
-AddTodo.contextTypes = { store: PropTypes.object };
+AddTodo = connect()(AddTodo);
 
 const getVisibleTodos = (todos, filter) => {
   switch (filter) {
@@ -203,7 +184,10 @@ const mapDispatchToTodoListProps = dispatch => ({
     })
 });
 
-const VisibleTodoList = connect(mapStateToTodoListProps, mapDispatchToTodoListProps)(TodoList);
+const VisibleTodoList = connect(
+  mapStateToTodoListProps,
+  mapDispatchToTodoListProps
+)(TodoList);
 
 let nextTodoID = 0;
 const TodoApp = (props, { store }) => (
