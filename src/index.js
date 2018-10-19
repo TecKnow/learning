@@ -191,11 +191,11 @@ const getVisibleTodos = (todos, filter) => {
   }
 };
 
-const mapStateToProps = state => ({
+const mapStateToTodoListProps = state => ({
   todos: getVisibleTodos(state.todos, state.visibilityFilter)
 });
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToTodoListProps = dispatch => ({
   onTodoClick: id =>
     dispatch({
       type: "TOGGLE_TODO",
@@ -203,7 +203,7 @@ const mapDispatchToProps = dispatch => ({
     })
 });
 
-const VisibleTodoList = connect(mapStateToProps, mapDispatchToProps)(TodoList);
+const VisibleTodoList = connect(mapStateToTodoListProps, mapDispatchToTodoListProps)(TodoList);
 
 let nextTodoID = 0;
 const TodoApp = (props, { store }) => (
