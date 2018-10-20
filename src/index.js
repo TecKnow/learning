@@ -4,6 +4,9 @@ import ReactDOM from "react-dom";
 import { connect, Provider } from "react-redux";
 import "./index.css";
 import { combineReducers, createStore } from "redux";
+import { loadState, saveState } from "./localStorage";
+import uuidv4 from "uuid/v4";
+import throttle from "lodash/throttle";
 // import App from './App';
 // import * as serviceWorker from './serviceWorker';
 
@@ -184,11 +187,10 @@ const VisibleTodoList = connect(
   mapDispatchToTodoListProps
 )(TodoList);
 
-let nextTodoID = 0;
 const addTodo = text => ({
   type: "ADD_TODO",
   text: text,
-  id: nextTodoID++
+  id: uuidv4()
 });
 const setVisibilityFilter = filter => ({
   type: "SET_VISIBILITY_FILTER",
@@ -207,8 +209,14 @@ const TodoApp = (props, { store }) => (
   </div>
 );
 
+const persistedState = loadState();
+const store = createStore(todoApp, persistedState);
+store.subscribe(throttle(() => {
+  saveState({ todos: store.getState().todos });
+}, 1000));
+
 ReactDOM.render(
-  <Provider store={createStore(todoApp)}>
+  <Provider store={store}>
     <TodoApp />
   </Provider>,
   document.getElementById("root")
