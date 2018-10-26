@@ -6,7 +6,7 @@ import { getVisibleTodos} from "../reducers";
 
 
 const mapStateToProps = (state, {match}) => ({
-  todos: getVisibleTodos(state, match.params.filter)
+  todos: getVisibleTodos(state, match.params.filter === undefined ? "all": match.params.filter )
 });
 
 const VisibleTodoList = withRouter(connect(
