@@ -1,4 +1,5 @@
 import uuidv4 from "uuid/v4";
+import * as api from "../api";
 
 export const addTodo = text => ({
   type: "ADD_TODO",
@@ -15,3 +16,6 @@ export const receiveTodos = (filter, response) => ({
 	filter,
 	response
 })
+
+export const fetchTodos = (filter) =>
+	Promise.resolve(api.fetchTodos(filter)).then(response => receiveTodos(filter, response));
