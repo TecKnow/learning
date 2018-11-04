@@ -17,5 +17,10 @@ export const receiveTodos = (filter, response) => ({
 	response
 })
 
+export const requestTodos = (filter) => ({
+	type: "REQUEST_TODOS",
+	filter
+})
+
 export const fetchTodos = (filter) =>
 	Promise.resolve(api.fetchTodos(filter)).then(response => receiveTodos(filter, response));
