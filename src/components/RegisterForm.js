@@ -1,32 +1,35 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
+import { customInputField, customSelect } from "./fields";
 
 class RegisterForm extends Component {
   render() {
-  	const {handleSubmit} = this.props
+    const { handleSubmit } = this.props;
     return (
       <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <Field name="name" component="input" type="text" />
-        </div>
-        <div>
-          <label>Preferred Formatting</label>
-          <Field name="preference" component="select">
-            <option />
-            <option value="tabs">Tabs</option>
-            <option value="spaces">Spaces</option>
-          </Field>
-        </div>
-        <div><label>Sign up to newsletter?</label>
-        <Field name="newsletter" component="input" type="checkbox"></Field>
-        </div>
-        <button type="submit">submit</button>
+        <Field
+          name="name"
+          component={customInputField}
+          type="text"
+          label="Name"
+        />
+        <Field
+          name="preference"
+          component={customSelect}
+          label="Preferred Formatting"
+        />
+        <Field
+          name="newsletter"
+          component={customInputField}
+          type="checkbox"
+          label="Sign up to newsletter?"
+        />
+        <button type="submit">Submit</button>
       </form>
     );
   }
 }
 
-RegisterForm = reduxForm({form: 'register'})(RegisterForm);
+RegisterForm = reduxForm({ form: "register" })(RegisterForm);
 
 export default RegisterForm;
