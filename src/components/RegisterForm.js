@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { customInputField, customSelect } from "./fields";
 import { required, minLength, maxLength } from "../validation";
+import './RegisterForm.css'
 
 class RegisterForm extends Component {
   render() {
