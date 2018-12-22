@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { customInputField, customSelect } from "./fields";
-import { required, minLength, maxLength } from "../validation";
-import './RegisterForm.css'
+import { required, minLength, maxLength, matchesPassword } from "../validation";
+import "./RegisterForm.css";
 
 class RegisterForm extends Component {
   render() {
@@ -30,6 +30,21 @@ class RegisterForm extends Component {
           label="Username"
           validate={[required, minLength, maxLength]}
         />
+        <Field
+          name="password"
+          component={customInputField}
+          type="password"
+          label="Password"
+          validate={[required]}
+        />
+        <Field
+          name="confirmPassword"
+          component={customInputField}
+          type="password"
+          label="Confirm Password"
+          validate={[required, matchesPassword]}
+        />
+
         <Field
           name="preference"
           component={customSelect}
