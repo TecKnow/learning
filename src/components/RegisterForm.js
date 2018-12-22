@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { customInputField, customSelect } from "./fields";
-import { validate } from "../validation"; 
+import { required, minLength, maxLength } from "../validation";
 
 class RegisterForm extends Component {
   render() {
@@ -13,18 +13,21 @@ class RegisterForm extends Component {
           component={customInputField}
           type="text"
           label="First Name"
+          validate={[required]}
         />
         <Field
           name="surname"
           component={customInputField}
           type="text"
           label="Surname"
+          validate={[required]}
         />
         <Field
           name="username"
           component={customInputField}
           type="text"
           label="Username"
+          validate={[required, minLength, maxLength]}
         />
         <Field
           name="preference"
@@ -43,6 +46,6 @@ class RegisterForm extends Component {
   }
 }
 
-RegisterForm = reduxForm({ form: "register", validate })(RegisterForm);
+RegisterForm = reduxForm({ form: "register" })(RegisterForm);
 
 export default RegisterForm;
