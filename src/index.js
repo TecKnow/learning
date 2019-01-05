@@ -9,8 +9,6 @@ class App extends React.Component {
   state = initialData;
 
   onDragEnd = result => {
-    document.body.style.color = "inherit";
-    document.body.style.backgroundColor = "inherit";
     const { destination, source, draggableId } = result;
     if (!destination) {
       return;
@@ -35,19 +33,6 @@ class App extends React.Component {
       }
     };
     this.setState(newState);
-  };
-
-  onDragStart = () => {
-    document.body.style.color = "orange";
-  };
-
-  onDragUpdate = update => {
-    const { destination } = update;
-    const opacity = destination
-      ? destination.index / Object.keys(this.state.tasks).length
-      : 0;
-    document.body.style.backgroundColor = `rgba(153, 141, 217, ${opacity})`;
-    document.body.style.transition = "background-color 0.2s ease";
   };
 
   render() {
