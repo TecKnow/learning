@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# test file from https://www.pythonmorsels.com/ which is not mine.
+/test_format_fixed_width.py
