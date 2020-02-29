@@ -1,10 +1,7 @@
 from collections import UserList
-from itertools import cycle
 
 
 class CyclicList(UserList):
-    def __iter__(self):
-        return cycle(super().__iter__())
 
     def __getitem__(self, item):
         if isinstance(item, slice):
