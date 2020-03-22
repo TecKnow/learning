@@ -16,11 +16,33 @@
 	</canvas>
 	<script type="text/javascript">
 		let canvas = document.getElementById('myCanvas');
-		let ctx = cavnas.getContext('2d');
+		let ctx = canvas.getContext('2d');
 		let screenWidth = 1000;
 		let screenHeight = 500;
 
-		var step = function(){
+		class GameCharacter{
+			constructor(x, y, width, height, color){
+				this.x = x;
+				this.y = y;
+				this.width = width;
+				this.height = height;
+				this.color = color;
+			}
+		}
+
+		let rectangle = new GameCharacter(50, 50, 50, 50, "rgb(0, 0, 255");
+
+		let draw = function(){
+			ctx.clearRect(0,0, screenWidth, screenHeight);
+			ctx.fillStyle = rectangle.color;
+			ctx.fillRect(rectangle.x, rectangle.y, rectangle.width, rectangle.height);
+
+			ctx.fillStyle = rectangle.color;
+			ctx.fillRect(rectangle.x+200, rectangle.y, rectangle.width, rectangle.height);
+		}
+
+		let step = function(){
+			draw();
 			window.requestAnimationFrame(step);
 		}
 		step();
