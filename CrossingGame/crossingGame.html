@@ -29,6 +29,7 @@
 		    this.height = height;
 		    this.color = color;
 		    this.speed = speed;
+		    this.maxSpeed = 4;
 		  }
 
 		  moveVertically(yAmount){
@@ -47,7 +48,18 @@
 		  new GameCharacter(450, screenHeight - 100, width, width, "rgb(0, 0, 255)", 3),
 		  new GameCharacter(700, 50, width, width, "rgb(0, 0, 255)", 4),
 		];
-		let player = new GameCharacter(50, 225, width, width, "rgb(0, 255, 0)", 2);
+		let player = new GameCharacter(50, 225, width, width, "rgb(0, 255, 0)", 0);
+
+		document.onkeydown = function(event){
+			let keyPressed = event.keyCode;
+			if (keyPressed == 39){
+				player.speed = player.maxSpeed;
+			}
+		}
+
+		document.onkeyup = function(event){
+			player.speed = 0;
+		}
 
 		let draw = function () {
 		  ctx.clearRect(0, 0, screenWidth, screenHeight);
@@ -62,6 +74,7 @@
 		};
 
 		let update = function(){
+			player.moveHorizontally();
 		  	enemies.forEach(function (element) {
 		  		element.moveVertically();
 		  	});
