@@ -20,9 +20,10 @@
 		let screenWidth = 1000;
 		let screenHeight = 500;
 		let width = 50;
+		let isGameLive = true;
 
 		class GameCharacter {
-		  constructor(x, y, width, height, color, speed=2) {
+		  constructor(x, y, width, height, color, speed = 2) {
 		    this.x = x;
 		    this.y = y;
 		    this.width = width;
@@ -32,14 +33,14 @@
 		    this.maxSpeed = 4;
 		  }
 
-		  moveVertically(yAmount){
-		  	if(this.y > screenHeight-100 || this.y < 50){
-		  		this.speed = -this.speed
-		  	}
-		  	this.y += this.speed;
+		  moveVertically(yAmount) {
+		    if (this.y > screenHeight - 100 || this.y < 50) {
+		      this.speed = -this.speed;
+		    }
+		    this.y += this.speed;
 		  }
-  		  moveHorizontally(){
-		  	this.x += this.speed;
+		  moveHorizontally() {
+		    this.x += this.speed;
 		  }
 		}
 
@@ -49,26 +50,35 @@
 		  new GameCharacter(700, 50, width, width, "rgb(0, 0, 255)", 4),
 		];
 		let player = new GameCharacter(50, 225, width, width, "rgb(0, 255, 0)", 0);
+		let goal = new GameCharacter(
+		  screenWidth - width,
+		  200,
+		  width,
+		  100,
+		  "rgb(0, 0, 0)",
+		  0
+		);
 
-		document.onkeydown = function(event){
-			let keyPressed = event.keyCode;
-			if (keyPressed == 39){
-				player.speed = player.maxSpeed;
-			} else if(keyPressed==37){
-				player.speed = -player.maxSpeed;
-			}
-		}
+		document.onkeydown = function (event) {
+		  let keyPressed = event.keyCode;
+		  if (keyPressed == 39) {
+		    player.speed = player.maxSpeed;
+		  } else if (keyPressed == 37) {
+		    player.speed = -player.maxSpeed;
+		  }
+		};
 
-		document.onkeyup = function(event){
-			player.speed = 0;
-		}
+		document.onkeyup = function (event) {
+		  player.speed = 0;
+		};
 
-		var checkCollisions = function(rect1, rect2){
-			let xOverlap = Math.abs(rect1.x - rect2.x) <= Math.max(rect1.width, rect2.width);
-			let yOverlap = Math.abs(rect1.y - rect2.y) <= Math.max(rect1.height, rect2.height);
-			return xOverlap && yOverlap;
-
-		}
+		var checkCollisions = function (rect1, rect2) {
+		  let xOverlap =
+		    Math.abs(rect1.x - rect2.x) <= Math.max(rect1.width, rect2.width);
+		  let yOverlap =
+		    Math.abs(rect1.y - rect2.y) <= Math.max(rect1.height, rect2.height);
+		  return xOverlap && yOverlap;
+		};
 
 		let draw = function () {
 		  ctx.clearRect(0, 0, screenWidth, screenHeight);
@@ -76,29 +86,46 @@
 		  ctx.fillStyle = player.color;
 		  ctx.fillRect(player.x, player.y, player.width, player.height);
 
+		  ctx.fillStyle = goal.color;
+		  ctx.fillRect(goal.x, goal.y, goal.width, goal.height);
+
 		  enemies.forEach(function (element) {
 		    ctx.fillStyle = element.color;
 		    ctx.fillRect(element.x, element.y, element.width, element.height);
 		  });
 		};
 
-		let update = function(){
-			player.moveHorizontally();
-		  	enemies.forEach(function (element) {
-		  		if(checkCollisions(player, element)){
-		  			alert("collision detected");
-		  		}
-		  		element.moveVertically();
-		  	});
+		let update = function () {
+		  if (checkCollisions(player, goal)) {
+		    endGameLogic("You win!");
+		  }
+
+		  player.moveHorizontally();
+
+		  enemies.forEach(function (element) {
+		    if (checkCollisions(player, element)) {
+		      endGameLogic("Game over!");
+		    }
+		    element.moveVertically();
+		  });
+		};
+
+		let endGameLogic = function (text) {
+		  isGameLive = false;
+		  alert(text);
+		  window.location = "";
 		};
 
 		let step = function () {
 		  update();
 		  draw();
-		  window.requestAnimationFrame(step);
+		  if (isGameLive) {
+		    window.requestAnimationFrame(step);
+		  }
 		};
 
 		step();
+
 	</script>
 </body>
 
