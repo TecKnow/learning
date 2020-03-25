@@ -1,0 +1,22 @@
+{
+  "name": "data_aggregator",
+  "version": "1.0.0",
+  "description": "Work along for the Zenva course \"Node.js for Beginners.\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TecKnow/zenva-node.js-for-beginners.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TecKnow/zenva-node.js-for-beginners/issues"
+  },
+  "homepage": "https://github.com/TecKnow/zenva-node.js-for-beginners#readme",
+  "dependencies": {
+    "request": "^2.88.2"
+  }
+}
