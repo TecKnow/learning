@@ -1,12 +1,19 @@
 let http = require("http");
 let request = require("request");
+let fs = require("fs");
 
 let request_body = undefined;
+let html_content = undefined;
 
 function createHtmlStringFromJson(retrievedData) {
-  let html_string =
-    "<html><header><title>Data aggregator</title></header></html><body><table>";
-  html_string += "<tr>";
+  let body_begin_index = html_content.indexOf("<body>");
+  let body_end_index = html_content.indexOf("</body>");
+
+  let string_until_body =
+    html_content.slice(0, body_begin_index) + "<body>".length;
+  let string_from_body = html_content.slice(body_end_index);
+
+  let html_string = "<table><tr>";
   for (let attribute in retrievedData[0]) {
     if (typeof retrievedData[0][attribute] !== "object") {
       html_string += "<th>" + attribute + "</th>";
@@ -24,9 +31,9 @@ function createHtmlStringFromJson(retrievedData) {
     html_string += "</tr>";
   });
 
-  html_string += "</table></body></html>";
+  html_string += "</table>";
 
-  return html_string;
+  return string_until_body + html_string + string_from_body;
 }
 
 request("https://www.bnefoodtrucks.com.au/api/1/trucks", function (
@@ -39,7 +46,7 @@ request("https://www.bnefoodtrucks.com.au/api/1/trucks", function (
 
 http
   .createServer(function (req, res) {
-    if (request_body) {
+    if (request_body && html_content) {
       res.writeHead(200, { "content-type": "text/html" });
       res.end(createHtmlStringFromJson(JSON.parse(request_body)));
     } else {
@@ -48,3 +55,11 @@ http
     }
   })
   .listen(8080);
+
+fs.readFile("./index.html", function (err, html) {
+  if (err) {
+    throw err;
+  } else {
+    html_content = html;
+  }
+});
