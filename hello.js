@@ -1,11 +1,11 @@
-var http = require("http");
-var moment = require("moment");
+let http = require("http");
+let moment = require("moment");
 
 function serverCallback(req, res) {
-  var begin_time = moment("10:00", "HH:mm");
-  var end_time = moment("18:00", "HH:mm");
+  let begin_time = moment("10:00", "HH:mm");
+  let end_time = moment("18:00", "HH :mm");
 
-  var message = "Hello " + process.argv[2] + "!\n";
+  let message = "Hello " + process.argv[2] + "!\n";
   message += "Welcome to our page.\n";
   message += "Now, it is " + moment().format("HH:mm") + "\n";
   message +=
@@ -15,8 +15,8 @@ function serverCallback(req, res) {
     end_time.format("HH:mm") +
     "\n";
 
-  var begin_difference = begin_time.diff(moment(), "minutes");
-  var end_difference = moment().diff(end_time, "minutes");
+  let begin_difference = begin_time.diff(moment(), "minutes");
+  let end_difference = moment().diff(end_time, "minutes");
 
   if (begin_difference > 0) {
     message += "Please come back in " + begin_difference + " minutes.\n";
