@@ -12,6 +12,11 @@ router.get("/", (req, res, next) => {
       "-" +
       today.getDate(),
     firstName: "David",
+    profiles: [
+      { name: "Adam", city: "Sydney", profession: "doctor" },
+      { name: "Bob", city: "Perth", profession: "lawyer" },
+      { name: "Charlie", city: "Sydney", profession: "programmer" },
+    ],
   };
   res.render("index", data);
 });
