@@ -1,7 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head></head>
+<head>
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+</head>
 <body>
-	<h1>This is the {{name}} Template</h1>
+	<div class="container">
+		<h1>This is the {{name}} Template</h1>
+		<p>Today is {{date}}.  My name is {{firstName}}</p>
+	</div>
+	
 </body>
 </html>

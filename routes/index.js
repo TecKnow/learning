@@ -2,7 +2,17 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-  const data = { name: "Home" };
+  const today = new Date();
+  const data = {
+    name: "Home",
+    date:
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate(),
+    firstName: "David",
+  };
   res.render("index", data);
 });
 
