@@ -1,6 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
+const profiles = [
+  { name: "Adam", city: "Sydney", profession: "doctor" },
+  { name: "Bob", city: "Perth", profession: "lawyer" },
+  { name: "Charlie", city: "Sydney", profession: "programmer" },
+];
+
 router.get("/", (req, res, next) => {
   const today = new Date();
   const data = {
@@ -12,13 +18,15 @@ router.get("/", (req, res, next) => {
       "-" +
       today.getDate(),
     firstName: "David",
-    profiles: [
-      { name: "Adam", city: "Sydney", profession: "doctor" },
-      { name: "Bob", city: "Perth", profession: "lawyer" },
-      { name: "Charlie", city: "Sydney", profession: "programmer" },
-    ],
+    profiles,
   };
   res.render("index", data);
+});
+
+router.post("/join", (req, res, next) => {
+  const body = req.body;
+  profiles.push(body);
+  res.redirect("/");
 });
 
 router.get("/json", (req, res, next) => {

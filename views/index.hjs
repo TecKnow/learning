@@ -18,6 +18,12 @@
 				</li>
 			{{/profiles}}
 		</ol>
+		<form method="post", action="/join">
+			<input type="text" name="name", placeholder="Name"/>
+			<input type="text" name="city", placeholder="City"/>
+			<input type="text" name="profession", placeholder="Profession"/>
+			<input type="submit" value="Add Profile"/>
+		</form>
 	</div>
 </body>
 </html>
