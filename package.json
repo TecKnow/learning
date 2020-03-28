@@ -17,9 +17,11 @@
   },
   "homepage": "https://github.com/TecKnow/zenva-express-for-beginners#readme",
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "hjs": "0.0.6"
   },
   "devDependencies": {
+    "express-generator": "^4.16.1",
     "husky": "^4.2.3",
     "nodemon": "^2.0.2",
     "prettier": "2.0.2",
