@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
+let user = null;
+
 const profiles = [
   { name: "Adam", city: "Sydney", profession: "doctor" },
   { name: "Bob", city: "Perth", profession: "lawyer" },
@@ -16,10 +18,27 @@ router.get("/", (req, res, next) => {
       (req.timestamp.getMonth() + 1) +
       "-" +
       req.timestamp.getDate(),
-    firstName: "David",
     profiles,
+    user,
   };
   res.render("index", data);
+});
+
+router.get("/login", (req, res, next) => {
+  res.render("login", null);
+});
+
+router.post("/login", (req, res, next) => {
+  const { username, password } = req.body;
+  if (password === "123") {
+    user = username;
+    res.redirect("/");
+  } else {
+    user = null;
+    res.json({
+      data: "failed login",
+    });
+  }
 });
 
 router.post("/join", (req, res, next) => {

@@ -7,7 +7,9 @@
 <body>
 	<div class="container">
 		<h1>This is the {{name}} Template</h1>
-		<p>Today is {{date}}.  My name is {{firstName}}</p>
+		{{#user}}
+		<p>Today is {{date}}.  My name is {{user}}.</p>
+		{{/user}}
 		<ol>
 			{{#profiles}}
 				<li>
