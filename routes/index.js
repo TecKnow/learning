@@ -8,15 +8,14 @@ const profiles = [
 ];
 
 router.get("/", (req, res, next) => {
-  const today = new Date();
   const data = {
     name: "Home",
     date:
-      today.getFullYear() +
+      req.timestamp.getFullYear() +
       "-" +
-      (today.getMonth() + 1) +
+      (req.timestamp.getMonth() + 1) +
       "-" +
-      today.getDate(),
+      req.timestamp.getDate(),
     firstName: "David",
     profiles,
   };
