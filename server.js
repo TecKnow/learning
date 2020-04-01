@@ -1,5 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
+const City = require("./models/City");
+const Country = require("./models/Country");
 
 mongoose
   .connect("mongodb://localhost/world", {
@@ -15,11 +17,43 @@ mongoose
 
 const app = express();
 
-app.use("/", (req, res, next) => {
+app.get("/", (req, res, next) => {
   res.json({
     confirmation: "success",
-    data: "this is the mongo project!",
+    data: "this is the mongoose project!",
   });
+});
+
+app.get("/cities", (req, res, next) => {
+  City.find(null)
+    .then((cities) => {
+      res.json({
+        confirmation: "success",
+        data: cities,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        confirmation: "fail",
+        message: err.message,
+      });
+    });
+});
+
+app.get("/countries", (req, res, next) => {
+  Country.find(null)
+    .then((countries) => {
+      res.json({
+        confirmation: "success",
+        data: countries,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        confirmation: "fail",
+        message: err.message,
+      });
+    });
 });
 
 app.listen(5000);
