@@ -18,4 +18,20 @@ router.get("/", (req, res, next) => {
     });
 });
 
+router.get("/:id", (req, res, next) => {
+  City.findById(req.params.id)
+    .then((city) => {
+      res.json({
+        confirmation: "success",
+        data: city,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        confirmation: "fail",
+        message: "City " + req.params.id + " not found",
+      });
+    });
+});
+
 module.exports = router;
