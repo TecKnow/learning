@@ -4,19 +4,23 @@
   "description": "A template for vanilla JavaScript projects",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel-node": "babel-node --presets=/*a*/ --ignore='foo|bar|baz'",
+    "start": "npx nodemon --exec npx babel-node -- index.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TecKnow/template-js.git"
+    "url": "git+https://github.com/TecKnow/zenva-REST-Express-Mongo.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TecKnow/template-js/issues"
+    "url": "https://github.com/TecKnow/zenva-REST-Express-Mongo/issues"
   },
-  "homepage": "https://github.com/TecKnow/template-js#readme",
+  "homepage": "https://github.com/TecKnow/zenva-REST-Express-Mongo#readme",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.10.1",
     "eslint-plugin-prettier": "^3.1.2",
