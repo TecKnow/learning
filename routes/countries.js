@@ -19,6 +19,41 @@ router.get("/", (req, res, next) => {
     });
 });
 
+router.get("/add", (req, res, next) => {
+  const details = req.query;
+  Country.create(details)
+    .then((country) => {
+      res.json({
+        confirmation: "success",
+        message: country,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        confirmation: "fail",
+        message: err.message,
+      });
+    });
+});
+
+router.get("/update/:id", (req, res, next) => {
+  const updatedDetails = req.query;
+  const countryId = req.params.id;
+  Country.findByIdAndUpdate(countryId, updatedDetails, { new: true })
+    .then((country) => {
+      res.json({
+        confirmation: "success",
+        message: country,
+      });
+    })
+    .catch((err) => {
+      res.json({
+        confirmation: "fail",
+        message: err.message,
+      });
+    });
+});
+
 router.get("/:id", (req, res, next) => {
   Country.findById(req.params.id)
     .then((country) => {
