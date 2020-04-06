@@ -1,14 +1,16 @@
 import { Router } from "express";
+import jwt from "jsonwebtoken";
 import User from "../../models/User";
+import { secret, auth } from "../../config/passport";
 const router = Router();
 
-router.get("/", (req, res) => {
+router.get("/", auth, (req, res) => {
   User.find({}, function (err, users) {
     res.send(users);
   });
 });
 
-router.post("/password", (req, res) => {
+router.post("/token", (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).send({
@@ -28,7 +30,12 @@ router.post("/password", (req, res) => {
       if (err) {
         return res.status(400).send(err);
       }
-      return res.send({ correct: isMatch });
+      if (!isMatch) {
+        return res.status(401).send({ err: "invalid password" });
+      }
+      const payload = { id: userModel._id };
+      const token = jwt.sign(payload, secret);
+      return res.send(token);
     });
   });
 });
@@ -51,4 +58,9 @@ router.post("/", (req, res) => {
     res.send(model);
   });
 });
+
+router.get("/current", auth, (req, res) => {
+  return res.send(req.user);
+});
+
 export default router;
