@@ -10,6 +10,16 @@ router.get("/", auth, (req, res) => {
   });
 });
 
+router.get("/:id", (req, res) => {
+  const { id } = req.params;
+  User.findById(id, function (err, userModel) {
+    if (err) {
+      return res.status(400).send({ err });
+    }
+    return res.send(userModel);
+  });
+});
+
 router.post("/token", (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {
