@@ -5,19 +5,23 @@ import { secret, auth } from "../../config/passport";
 const router = Router();
 
 router.get("/", auth, (req, res) => {
-  User.find({}, function (err, users) {
-    res.send(users);
-  });
+  User.find({})
+    .select("-password")
+    .exec(function (err, users) {
+      res.send(users);
+    });
 });
 
 router.get("/:id", (req, res) => {
   const { id } = req.params;
-  User.findById(id, function (err, userModel) {
-    if (err) {
-      return res.status(400).send({ err });
-    }
-    return res.send(userModel);
-  });
+  User.findById(id)
+    .select("-password")
+    .exec(function (err, userModel) {
+      if (err) {
+        return res.status(400).send({ err });
+      }
+      return res.send(userModel);
+    });
 });
 
 router.post("/token", (req, res) => {
@@ -80,7 +84,7 @@ router.post("/", (req, res) => {
     password,
   });
   newUser.save(function (err, model) {
-    res.send(model);
+    res.status(201).send(model.removePass());
   });
 });
 
