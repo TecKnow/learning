@@ -50,6 +50,21 @@ router.post("/token", (req, res) => {
   });
 });
 
+router.patch("/", auth, (req, res) => {
+  const { password } = req.body;
+  if (!password) {
+    res.status(400).send({ err: "Password is required" });
+  }
+  const currentUser = req.user;
+  currentUser.password = password;
+  currentUser.save(function (err) {
+    if (err) {
+      return res.status(400).send({ err });
+    }
+    return res.status(204).send();
+  });
+});
+
 router.post("/", (req, res) => {
   const { username, password } = req.body;
   if (!username || !password) {

@@ -52,4 +52,43 @@ router.delete("/:id", auth, (req, res) => {
   });
 });
 
+router.put("/:id", auth, (req, res) => {
+  const { id } = req.params;
+  const { name, type, owner } = req.body;
+  if (!name || !type) {
+    return res.status(400).send({ err: "Name and type are required." });
+  }
+  Animal.findByIdAndUpdate(id, { name, type, owner }, { new: true }, function (
+    err,
+    updatedAnimal
+  ) {
+    if (err) {
+      return res.status(400).send({ err });
+    }
+    return res.send(updatedAnimal);
+  });
+});
+
+router.patch("/:id", auth, (req, res) => {
+  const { id } = req.params;
+  const { name, type, owner } = req.body;
+
+  if (!name || !type) {
+    return res.status(400).send({ err: "Name and type are required" });
+  }
+  const updated = { name, type };
+  if (owner) {
+    updated.owner = owner;
+  }
+  Animal.findByIdAndUpdate(id, { updated }, { new: true }, function (
+    err,
+    updatedAnimal
+  ) {
+    if (err) {
+      return res.status(400).send({ err });
+    }
+    return res.send(updatedAnimal);
+  });
+});
+
 export default router;
