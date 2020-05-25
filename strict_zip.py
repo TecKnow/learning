@@ -1,7 +1,10 @@
+from itertools import zip_longest
+
+
 def strict_zip(*iterables):
-    iterables = [list(s) for s in iterables]
-    lengths = {len(s) for s in iterables}
-    if len(lengths) > 1:
-        raise ValueError()
-    else:
-        yield from  list(zip(*iterables))
+    sentinel_value = object()
+    series = zip_longest(*iterables, fillvalue=sentinel_value)
+    for values in series:
+        if sentinel_value in values:
+            raise ValueError()
+        yield values
