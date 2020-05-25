@@ -4,4 +4,4 @@ def strict_zip(*iterables):
     if len(lengths) > 1:
         raise ValueError()
     else:
-        return list(zip(*iterables))
+        yield from  list(zip(*iterables))
