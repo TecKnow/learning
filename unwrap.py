@@ -1,20 +1,9 @@
+import re
+
+one_break_str = r"(\S)\n(\S)"
+one_break_re = re.compile(one_break_str)
+
+
 def unwrap_lines(text: str) -> str:
-    paragraphs = text.split("\n\n")
-    unwrapped_paragraphs =  [" ".join(paragraph.splitlines()) for paragraph in paragraphs]
-    reflowed_paragraphs = "\n\n".join(unwrapped_paragraphs)
+    reflowed_paragraphs = one_break_re.sub(r"\1 \2", text)
     return reflowed_paragraphs
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
