@@ -5,7 +5,7 @@ from collections.abc import MutableSequence
 class MutableString(MutableSequence, UserString):
 
     def __getitem__(self, item):
-        return self.data[item]
+        return MutableString(self.data[item])
 
     def __setitem__(self, key, value):
         data_as_list = list(self.data)
