@@ -1,23 +1,27 @@
 from collections import UserString
 from collections.abc import MutableSequence
+from contextlib import contextmanager
 
 
 class MutableString(MutableSequence, UserString):
 
-    def __setitem__(self, key, value):
+    @contextmanager
+    def data_list(self):
         data_as_list = list(self.data)
-        data_as_list[key] = value
+        yield data_as_list
         self.data = ''.join(data_as_list)
 
+    def __setitem__(self, key, value):
+        with self.data_list() as data_as_list:
+            data_as_list[key] = value
+
     def __delitem__(self, key):
-        data_as_list = list(self.data)
-        del data_as_list[key]
-        self.data = ''.join(data_as_list)
+        with self.data_list() as data_as_list:
+            del data_as_list[key]
 
     def __len__(self):
         return len(self.data)
 
     def insert(self, index, obj):
-        data_as_list = list(self.data)
-        data_as_list.insert(index, obj)
-        self.data = ''.join(data_as_list)
+        with self.data_list() as data_as_list:
+            data_as_list.insert(index, obj)
