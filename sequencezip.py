@@ -19,11 +19,7 @@ class SequenceZip(Sequence):
         elif len(self) != len(other):
             return False
         sequence_pairs = zip(self._sequences, other._sequences)
-        for s, o in sequence_pairs:
-            s, o = s[:len(self)], o[:len(other)]
-            if s != o:
-                return False
-        return True
+        return all(s[:len(self)] == o[:len(other)] for s, o in sequence_pairs)
 
     def __len__(self) -> int:
         return min(len(c) for c in self._sequences)
