@@ -1,9 +1,9 @@
 from collections import namedtuple
-from csv import reader
-from typing import Iterable
+from csv import DictReader
+from typing import Optional, Iterable
 
 
-def FancyReader(rows: Iterable[str], fieldnames: Iterable[str]):
-    row_type = namedtuple("Row", fieldnames, rename=True)
-    row_reader = reader(rows)
-    yield from (row_type(*row) for row in row_reader)
+def FancyReader(rows: Iterable[str], fieldnames: Optional[Iterable[str]] = None):
+    row_reader = DictReader(rows, fieldnames=fieldnames)
+    row_type = namedtuple("Row", row_reader.fieldnames, rename=True)
+    yield from (row_type(**row) for row in row_reader)
