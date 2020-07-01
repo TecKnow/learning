@@ -25,3 +25,14 @@ class Grouper(UserDict):
 
     def group_for(self, item: Any) -> bool:
         return self.key_function(item)
+
+    def __add__(self, other):
+        if not isinstance(other, Grouper):
+            return NotImplemented
+        if self.key_function != other.key_function:
+            raise ValueError("Key functions must match.")
+        combined_keys = {*self.keys(), *other.keys()}
+        new_grouper = Grouper(key=self.key_function)
+        for key in combined_keys:
+            new_grouper.data[key] = self.data[key] + other.data[key]
+        return new_grouper
