@@ -1,9 +1,8 @@
 from collections import defaultdict, UserDict
-from collections.abc import MutableMapping
-from typing import Callable, Iterable, Optional, Mapping
+from typing import Any, Callable, Iterable, Optional, Mapping
 
 
-class Grouper(UserDict, MutableMapping):
+class Grouper(UserDict):
     def __init__(self, initial_values: Optional[Iterable] = None, *, key: Callable, ):
         self.key_function = key
         self.data = defaultdict(list)
@@ -20,3 +19,9 @@ class Grouper(UserDict, MutableMapping):
         else:
             for item in items:
                 self.data[self.key_function(item)].append(item)
+
+    def add(self, item: Any):
+        self.data[self.key_function(item)].append(item)
+
+    def group_for(self, item: Any) -> bool:
+        return self.key_function(item)
