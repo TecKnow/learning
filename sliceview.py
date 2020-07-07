@@ -3,28 +3,22 @@ from collections.abc import Iterable
 
 class SliceView(Iterable):
 
-    def _bound_index(self, index):
-        if index < 0:
-            index = len(self.collection) + index
-        index = min(max(0, index), len(self.collection))
-        return index
-
     def __init__(self, collection, start=None, stop=None, step=1):
-        self.collection = collection
+        self.start = start
+        self.stop = stop
         self.step = step
-        if step < 0:
-            self.start = len(collection) - 1 if start is None else start
-            self.stop = 0 if stop is None else stop
-        else:
-            self.start = 0 if start is None else start
-            self.stop = len(collection) if stop is None else stop
-        (self.start, self.stop) = (self._bound_index(self.start), self._bound_index(self.stop))
+        self.collection = collection
+        self._slice = slice(start, stop, step)
 
     def __iter__(self):
-        current_position = self.start
-        while self.step > 0 and current_position < self.stop or self.step < 0 and current_position >= self.stop:
-            yield self.collection[current_position]
-            current_position += self.step
+        iter_indices = self._slice.indices(len(self.collection))
+        iter_range = range(*iter_indices)
+        return (self.collection[i] for i in iter_range)
+
+    def __len__(self):
+        size_indices = self._slice.indices(len(self.collection))
+        size_range = range(*size_indices)
+        return len(size_range)
 
 
 if __name__ == "__main__":
