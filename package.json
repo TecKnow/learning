@@ -1,0 +1,34 @@
+{
+  "name": "zenva-mondodb-for-beginners",
+  "version": "1.0.0",
+  "description": "Work along code for the Zenva course \"MongoDB for Beginners\"",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.9.7"
+  },
+  "devDependencies": {
+    "husky": "^4.2.3",
+    "nodemon": "^2.0.2",
+    "prettier": "^2.0.2",
+    "pretty-quick": "^2.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TecKnow/zenva-mondodb-for-beginners.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TecKnow/zenva-mondodb-for-beginners/issues"
+  },
+  "homepage": "https://github.com/TecKnow/zenva-mondodb-for-beginners#readme",
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}
