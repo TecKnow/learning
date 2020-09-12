@@ -1,0 +1,36 @@
+{
+  "name": "zenva-express-for-beginners",
+  "version": "1.0.0",
+  "description": "Work-along for the Zenva course \"Express for Beginners.\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TecKnow/zenva-express-for-beginners.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TecKnow/zenva-express-for-beginners/issues"
+  },
+  "homepage": "https://github.com/TecKnow/zenva-express-for-beginners#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "hjs": "0.0.6"
+  },
+  "devDependencies": {
+    "express-generator": "^4.16.1",
+    "husky": "^4.2.3",
+    "nodemon": "^2.0.2",
+    "prettier": "2.0.2",
+    "pretty-quick": "^2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
+  }
+}
