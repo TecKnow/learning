@@ -1,0 +1,51 @@
+{
+  "name": "zenva-REST-Express-Mongo",
+  "version": "1.0.0",
+  "description": "Work-along code for the Zenva course \"Create REST APIs with Express and MongoDB.\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "babel-node": "babel-node --presets=/*a*/ --ignore='foo|bar|baz'",
+    "start": "npx nodemon --exec npx babel-node -- index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TecKnow/zenva-REST-Express-Mongo.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TecKnow/zenva-REST-Express-Mongo/issues"
+  },
+  "homepage": "https://github.com/TecKnow/zenva-REST-Express-Mongo#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.1.1",
+    "nodemon": "^2.0.2",
+    "prettier": "^2.0.2",
+    "pretty-quick": "^2.0.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --cache --fix"
+  },
+  "dependencies": {
+    "bcrypt": "^4.0.1",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "lodash": "^4.17.15",
+    "mongoose": "^5.9.7",
+    "passport": "^0.4.1",
+    "passport-jwt": "^4.0.0"
+  }
+}
