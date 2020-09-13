@@ -1,7 +1,7 @@
 # template-js
-A template for vanilla JavaScript projects
+Work-along code for the socket.io tutorial.
 
-This template includes prettier, ESlint, and nodemon.
+This project is is configured to use prettier, ESlint, and nodemon.
 
 ESLint is configured for a dual browser/node deployment using CommonJS style `require` imports.  ESLint is configured to accomodate prettier and apply it to staged JS files.
 
