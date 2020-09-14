@@ -1,21 +1,21 @@
 {
-  "name": "template",
-  "version": "1.0.0",
-  "description": "A template for vanilla JavaScript projects",
+  "name": "socket-chat-example",
+  "version": "0.0.1",
+  "description": "my first socket.io app",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TecKnow/template-js.git"
+    "url": "git+https://github.com/TecKnow/socket.io-tutorial"
   },
-  "author": "",
+  "author": "David P. Perkins",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TecKnow/template-js/issues"
+    "url": "https://github.com/TecKnow/socket.io-tutorial/issues"
   },
-  "homepage": "https://github.com/TecKnow/template-js#readme",
+  "homepage": "https://github.com/TecKnow/socket.io-tutorial#readme",
   "devDependencies": {
     "elint": "^1.11.1",
     "eslint": "^7.9.0",
@@ -34,5 +34,8 @@
   },
   "lint-staged": {
     "*.js": "eslint --cache --fix"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
   }
 }
