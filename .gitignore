@@ -127,6 +127,5 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-/concat_check/test_concat_check.py
 
-**/test_*
+test_*
