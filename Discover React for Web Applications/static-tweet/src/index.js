@@ -1,70 +1,113 @@
-import React from "react";
-import ReactDom from "react-dom";
-import "./index.css";
+import React from 'react';
+import ReactDom from 'react-dom';
+import './index.css';
+import moment from 'moment';
 
-function Tweet() {
-  return (
-    <div className="tweet">
-      <Avatar />
-      <div className="content">
-        <NameWithHandle />
-        <Time />
-        <Message />
-        <div className="buttons">
-          <LikeButton />
-          <CommentButton />
-          <ShareButton />
-          <RetweetButton />
+function Tweet({tweet}) {
+    return (
+        <div className="tweet">
+            <Avatar hash={tweet.gravatar}/>
+            <div className="content">
+                <NameWithHandle author={tweet.author}/><Time time={tweet.timstamp}/>
+                <Message text={tweet.message}/>
+                <div className="button">
+                    <CommentButton/>
+                    <RetweetButton count={tweet.retweets}/>
+                    <LikeButton count={tweet.likes}/>
+                    <ShareButton/>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 }
 
-function Avatar() {
-  return (
-    <img
-      src="https://www.gravatar.com/avatar/nothing"
-      className="avatar"
-      alt="avatar"
-    />
-  );
+
+function Avatar({hash}) {
+    var url = "https://www.gravatar.com/avatar/" + {hash}
+    return (
+        <img src={url}
+        className="avatar"
+        alt="avatar"/>
+    );
 }
 
-function Message() {
-  return <div>This is less than 140 characters.</div>;
+function Message({text}) {
+    return (
+        <div className="message">
+            {text}
+        </div>
+    );
 }
 
-function NameWithHandle() {
-  return (
-    <span className="name-with-handle">
-      <span className="name">Your Name</span>
-      <span className="handle">@yourHandle</span>
+function NameWithHandle({author}) {
+    const {name, handle } =author;
+    return (
+        <span className="name-with-handle">
+            <span className="name">{name}</span>
+            <span className="handle">@{handle}</span>
+        </span>
+    );
+}
+
+const Time = ({time}) => {
+    const timeString = moment(time).fromNow();
+    return (
+        <span className="time">
+            {timeString} 
+        </span>
+    );
+}
+
+const LikeButton = ({count}) =>(
+    <span className="like-button">
+        <i className="fa fa-heart"/>
+        { count > 0 &&
+            <span className="like-count">
+                {count}
+            </span>}
     </span>
-  );
+    
+);
+
+const CommentButton = () => (
+    <i className="far fa-comment"/>
+);
+
+function getRetweetCount(count) {
+    if(count > 0) {
+        return (
+            <span className="retweet-count">
+                {count}
+            </span>
+        );
+    } else {
+        return null;
+    }
 }
 
-const Time = () => <span className="time">3h ago</span>;
+const RetweetButton = ({count}) => (
+    <span className="retweet-button">
+        <i className="fa fa-retweet"/>
+        {getRetweetCount(count)}
+    </span>
+    
+);
 
-const LikeButton = () => <i className="fa fa-heart like-button" />;
+const ShareButton = () => (
+    <i className="fas fa-external-link-alt"/>
+);
 
-const CommentButton = () => <i className="far fa-comment" />;
+var testTweet = {
+    message: "Something about React.",
+    gravatar: "xyz",
+    author: {
+        handle: "zenvaMorgan",
+        name: "Morgan"
+    },
+    likes: 2,
+    retweets: 0,
+    timestamp: "2019-11-23 20:24:37"
+};
 
-const RetweetButton = () => <i className="fa fa-retweet retweet-button" />;
 
-const ShareButton = () => <i className="fa fa-external-link-alt" />;
-
-const Person = (props) => <h1>{props.name + " " + props.age}</h1>;
-
-function Morgan() {
-  const fName = "Morgan"
-  const lname = "McKie";
-
-  return (<Person age={105} name={fName + " " + lname}/>);
-}
-
-function Hello(props){
-  return (<span>Hello {props.name}</span>);
-}
-
-ReactDom.render(<Hello name="Morgan"/>, document.querySelector("#root"));
+ReactDom.render(<Tweet tweet={testTweet}/>,document.querySelector('#root'));
