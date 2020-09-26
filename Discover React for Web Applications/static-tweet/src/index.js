@@ -8,13 +8,13 @@ function Tweet() {
       <Avatar />
       <div className="content">
         <NameWithHandle />
-        <Time/>
+        <Time />
         <Message />
         <div className="buttons">
-        <LikeButton/>
-        <CommentButton/>
-        <ShareButton/>
-        <RetweetButton/>
+          <LikeButton />
+          <CommentButton />
+          <ShareButton />
+          <RetweetButton />
         </div>
       </div>
     </div>
@@ -46,12 +46,25 @@ function NameWithHandle() {
 
 const Time = () => <span className="time">3h ago</span>;
 
-const LikeButton = () => (<i className="fa fa-heart like-button"/>);
+const LikeButton = () => <i className="fa fa-heart like-button" />;
 
-const CommentButton = () => (<i className="far fa-comment"/>);
+const CommentButton = () => <i className="far fa-comment" />;
 
-const RetweetButton = () => (<i className="fa fa-retweet retweet-button"/>);
+const RetweetButton = () => <i className="fa fa-retweet retweet-button" />;
 
-const ShareButton = () => (<i className="fa fa-external-link-alt"/>);
+const ShareButton = () => <i className="fa fa-external-link-alt" />;
 
-ReactDom.render(<Tweet />, document.querySelector("#root"));
+const Person = (props) => <h1>{props.name + " " + props.age}</h1>;
+
+function Morgan() {
+  const fName = "Morgan"
+  const lname = "McKie";
+
+  return (<Person age={105} name={fName + " " + lname}/>);
+}
+
+function Hello(props){
+  return (<span>Hello {props.name}</span>);
+}
+
+ReactDom.render(<Hello name="Morgan"/>, document.querySelector("#root"));
