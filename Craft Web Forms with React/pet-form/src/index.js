@@ -1,12 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import DogForm from "./DogForm";
+import PetApp from "./PetApp";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
-    <DogForm />
+    <PetApp />
   </React.StrictMode>,
   document.getElementById("root")
 );
