@@ -26,13 +26,13 @@ class cached_property:
         if self.fset is None:
             instance.__dict__[self.name] = value
             return
+        del instance.__dict__[self.name]
         self.fset(instance, value)
 
     def __delete__(self, instance):
-        if self.fdel is None:
-            del instance.__dict__[self.name]
-            return
-        self.fdel(instance)
+        del instance.__dict__[self.name]
+        if self.fdel is not None:
+            self.fdel(instance)
 
     def getter(self, fget):
         return type(self)(fget, self.fset, self.fdel, self.__doc__)
