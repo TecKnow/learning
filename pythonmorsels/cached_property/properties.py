@@ -26,8 +26,8 @@ class cached_property:
         if self.fset is None:
             instance.__dict__[self.name] = value
             return
-        del instance.__dict__[self.name]
         self.fset(instance, value)
+        del instance.__dict__[self.name]
 
     def __delete__(self, instance):
         del instance.__dict__[self.name]
@@ -35,10 +35,13 @@ class cached_property:
             self.fdel(instance)
 
     def getter(self, fget):
-        return type(self)(fget, self.fset, self.fdel, self.__doc__)
+        self.fget = fget
+        return self
 
     def setter(self, fset):
-        return type(self)(self.fget, fset, self.fdel, self.__doc__)
+        self.fset = fset
+        return self
 
     def deleter(self, fdel):
-        return type(self)(self.fget, self.fset, fdel, self.__doc__)
+        self.fdel = fdel
+        return self
