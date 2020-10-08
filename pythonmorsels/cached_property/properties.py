@@ -1,21 +1,44 @@
 class cached_property:
-    def __init__(self, original_function):
-        self.original_function = original_function
-        self.name = original_function.__name__
+
+    def __init__(self, fget=None, fset=None, fdel=None, doc=None):
+        self.fget = fget
+        self.fset = fset
+        self.fdel = fdel
+        self.name = None
+        if doc is None and fget is not None:
+            doc = fget.__doc__
+        self.__doc__ = doc
 
     def __set_name__(self, owner, name):
         self.name = name
 
-    def __get__(self, instance, owner):
+    def __get__(self, instance, owner=None):
         if instance is None:
             return self
-        if self.name not in instance.__dict__:
-            computed_value = self.original_function(instance)
-            instance.__dict__[self.name] = computed_value
-        return instance.__dict__[self.name]
+        if self.name not in instance.__dict__ and self.fget is not None:
+            instance.__dict__[self.name] = self.fget(instance)
+        if self.name in instance.__dict__:
+            return instance.__dict__[self.name]
+        if self.fget is None:
+            raise AttributeError("unreadable attribute")
 
     def __set__(self, instance, value):
-        instance.__dict__[self.name] = value
+        if self.fset is None:
+            instance.__dict__[self.name] = value
+            return
+        self.fset(instance, value)
 
     def __delete__(self, instance):
-        del instance.__dict__[self.name]
+        if self.fdel is None:
+            del instance.__dict__[self.name]
+            return
+        self.fdel(instance)
+
+    def getter(self, fget):
+        return type(self)(fget, self.fset, self.fdel, self.__doc__)
+
+    def setter(self, fset):
+        return type(self)(self.fget, fset, self.fdel, self.__doc__)
+
+    def deleter(self, fdel):
+        return type(self)(self.fget, self.fset, fdel, self.__doc__)
