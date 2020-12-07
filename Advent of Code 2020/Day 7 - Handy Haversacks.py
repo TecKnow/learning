@@ -24,6 +24,21 @@ def parse_lines(lines: Iterator[str]) -> dict[str, dict[str, int]]:
     return result_dict
 
 
+def can_contain(graph: nx.DiGraph, target: str = "shiny gold bags", ) -> set[str]:
+    reversed_graph = graph.reverse(copy=True)
+    connected_node_gen = nx.dfs_preorder_nodes(reversed_graph, source=target)
+    connected_nodes = set(connected_node_gen)
+    connected_nodes.remove(target)
+    return connected_nodes
+
+
+def contained_by(graph: nx.DiGraph, target: str = "shiny gold bags", contained_bags: int = 0) -> int:
+    contained_bags += sum(
+        attributes["weight"] + (attributes["weight"] * contained_by(graph, child)) for child, attributes in
+        graph[target].items())
+    return contained_bags
+
+
 if __name__ == "__main__":
     data = open("Day 7 Data.txt").readlines()
     data = parse_lines(data)
@@ -33,9 +48,5 @@ if __name__ == "__main__":
         for held_kind, count in rules.items():
             G.add_edge(kind, held_kind, weight=count)
 
-    reversed_graph = G.reverse(copy=True)
-    connected_node_gen = nx.dfs_preorder_nodes(reversed_graph, source="shiny gold bags")
-    connected_nodes = set(connected_node_gen)
-    connected_nodes.remove("shiny gold bags")
-    print(sorted(connected_nodes))
-    print(len(connected_nodes))
+    held_bags = contained_by(G)
+    print(held_bags)
