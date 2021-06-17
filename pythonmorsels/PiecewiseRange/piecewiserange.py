@@ -13,6 +13,15 @@ class PiecewiseRange:
             else:
                 yield from range(element[0], element[1]+1)
 
+    def __len__(self):
+        result = 0
+        for element in self.elements:
+            if len(element) == 1:
+                result += 1
+            else:
+                result += len(range(element[0], element[1]+1))
+        return result
+
 
 if __name__ == "__main__":
     p = PiecewiseRange('1-2, 4, 8-10, 11')
