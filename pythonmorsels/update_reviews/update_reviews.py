@@ -1,6 +1,5 @@
-import csv
 import argparse
-from pprint import pprint
+import csv
 
 COLUMN_NAMES = "Name Price Street City State Comments"
 
@@ -10,12 +9,9 @@ parser.add_argument("update.csv", help="New information to be added to the maste
 parser.add_argument("-u", "--update", action="store_true")
 parser.add_argument("-s", "--sort", action="store_true")
 
-
 if __name__ == "__main__":
     args = parser.parse_args()
     args = vars(args)
-    master_list = list()
-    update_list = list()
     with open(args["master.csv"], newline='') as master_file, open(args["update.csv"], newline="") as update_file:
         master_reader = csv.DictReader(master_file)
         update_reader = csv.DictReader(update_file)
@@ -35,7 +31,10 @@ if __name__ == "__main__":
     with open(args["master.csv"], 'w', newline='') as outfile:
         writer = csv.DictWriter(outfile, fieldnames=COLUMN_NAMES.split())
         writer.writeheader()
-        writer.writerows(records.values())
+        if args["sort"]:
+            writer.writerows(sorted(records.values(), key=lambda r: (r["State"], r["City"], r["Name"])))
+        else:
+            writer.writerows(records.values())
     print(f"Added {rows_added} row(s)")
     if args["update"]:
         print(f"Updated {rows_updated} row(s)")
