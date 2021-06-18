@@ -22,8 +22,18 @@ class PiecewiseRange:
                 result += len(range(element[0], element[1]+1))
         return result
 
+    def __getitem__(self, item):
+        remaining_index = item
+        for element in self.elements:
+            if len(element) == 1:
+                if remaining_index == 0:
+                    return element[0]
+                remaining_index -= 1
+            elif len(range(element[0], element[1] + 1)) <= remaining_index:
+                remaining_index -= len(range(element[0], element[1] + 1))
+            else:
+                return range(element[0], element[1] + 1)[remaining_index]
+
 
 if __name__ == "__main__":
-    p = PiecewiseRange('1-2, 4, 8-10, 11')
-    pl = list(p)
-    print(pl)
+    print(PiecewiseRange('1-2, 6-8, 12-14')[5])
