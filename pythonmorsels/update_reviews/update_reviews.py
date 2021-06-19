@@ -11,7 +11,7 @@ parser.add_argument("-s", "--sort", action="store_true")
 
 if __name__ == "__main__":
     args = parser.parse_args()
-    args = vars(args)
+    args = vars(args)  # This turns args into a dictionary.  This is necessary because it includes non-identifier keys
     with open(args["master.csv"], newline='') as master_file, open(args["update.csv"], newline="") as update_file:
         master_reader = csv.DictReader(master_file)
         update_reader = csv.DictReader(update_file)
@@ -21,20 +21,20 @@ if __name__ == "__main__":
         rows_added = 0
         rows_updated = 0
         for row in update_list:
-            if (row["State"], row["City"], row["Name"], row["Street"]) not in records:
+            row_key = (row["State"], row["City"], row["Name"], row["Street"])
+            if row_key not in records:
                 rows_added += 1
-                records[(row["State"], row["City"], row["Name"], row["Street"])] = row
+                records[row_key] = row
             elif args["update"]:
                 if row["Comments"]:
-                    records[(row["State"], row["City"], row["Name"], row["Street"])]["Comments"] = row["Comments"]
+                    records[row_key]["Comments"] = row["Comments"]
                     rows_updated += 1
     with open(args["master.csv"], 'w', newline='') as outfile:
         writer = csv.DictWriter(outfile, fieldnames=COLUMN_NAMES.split())
+        output_rows = sorted(records.values(),
+                             key=lambda r: (r["State"], r["City"], r["Name"])) if args["sort"] else records.values()
         writer.writeheader()
-        if args["sort"]:
-            writer.writerows(sorted(records.values(), key=lambda r: (r["State"], r["City"], r["Name"])))
-        else:
-            writer.writerows(records.values())
+        writer.writerows(output_rows)
     print(f"Added {rows_added} row(s)")
     if args["update"]:
         print(f"Updated {rows_updated} row(s)")
