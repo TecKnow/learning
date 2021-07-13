@@ -1,6 +1,3 @@
-import functools
-
-
 class UnsubclassableType(type):
     def __new__(mcs, name, bases, dct, *args, **kwargs):
         x = super().__new__(mcs, name, bases, dct, *args, **kwargs)
@@ -12,11 +9,8 @@ class UnsubclassableType(type):
 
 def final_class(cls):
     """Make a class unavailable for subclassing"""
-
-    class NewClass(cls, metaclass=UnsubclassableType):
-        pass
-
-    return NewClass
+    new_class = UnsubclassableType(cls.__name__, cls.__bases__, dict(cls.__dict__))
+    return new_class
 
 
 @final_class
