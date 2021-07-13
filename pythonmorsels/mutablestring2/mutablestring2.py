@@ -3,7 +3,7 @@ from collections.abc import MutableSequence
 from contextlib import contextmanager
 
 
-class MutableString(MutableSequence, UserString):
+class MutableString(MutableSequence, UserString, str):
 
     @contextmanager
     def data_list(self):
@@ -37,6 +37,11 @@ class MutableString(MutableSequence, UserString):
         self.data = self.data * other
         return self
 
+    def __eq__(self, other):
+        return str(self) == str(other)
+
+    def __ne__(self, other):
+        return str(self) != str(other)
 
     def __str__(self):
         return self.data
