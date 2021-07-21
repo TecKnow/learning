@@ -4,13 +4,25 @@ from typing import Optional
 
 
 class Timer:
-    def __init__(self, func=None, *, _name: Optional[str] = None, _parent: Optional["Timer"] = None):
-        self._parent = None  # type: Optional[Timer]
+    registry = dict()
+
+    def __new__(cls, name: Optional[str] = None, _parent: Optional["Timer"] = None, *args, **kwargs):
+        if name is not None and name in cls.registry:
+            return cls.registry[name]
+        else:
+            new_instance = super().__new__(cls, *args, **kwargs)
+            if name is not None:
+                cls.registry[name] = new_instance
+            return new_instance
+
+    def __init__(self, name: Optional[str] = None, _parent: Optional["Timer"] = None):
+
+        self._parent = _parent  # type: Optional[Timer]
+        print(f"{_parent=}, {self._parent=}")
         self._start = self._parent._start if self._parent is not None else None
         self._finish = None
-        self._name = None
+        self.name = name
         self.runs = list()
-        self._func = func
         self._named_splits = dict()
         self._split_list = list()
 
@@ -20,12 +32,10 @@ class Timer:
 
     def __exit__(self, exc_type, exc_val, exc_tb):
         self._finish = perf_counter()
+        if self._start is None:
+            print(f"Freaking out with {self._parent}")
         self.runs.append(self._finish - self._start)
         self._start = None
-
-    def __call__(self, *args, **kwargs):
-        with self:
-            return self._func(*args, **kwargs)
 
     def __getitem__(self, item):
         if isinstance(item, int):
@@ -39,7 +49,7 @@ class Timer:
         elif name in self._named_splits:
             return self._named_splits[name]
         else:
-            new_split = self.__class__(_name=name, _parent=self)
+            new_split = self.__class__(name=name, _parent=self)
             self._split_list.append(new_split)
             if name is not None:
                 self._named_splits[name] = new_split
