@@ -17,14 +17,15 @@ class Timer:
 
     def __init__(self, name: Optional[str] = None, _parent: Optional["Timer"] = None):
 
-        self._parent = _parent  # type: Optional[Timer]
-        print(f"{_parent=}, {self._parent=}")
-        self._start = self._parent._start if self._parent is not None else None
-        self._finish = None
-        self.name = name
-        self.runs = list()
-        self._named_splits = dict()
-        self._split_list = list()
+        if getattr(self, "_existing", False) is False:
+            self._parent = _parent  # type: Optional[Timer]
+            self._start = self._parent._start if self._parent is not None else None
+            self._finish = None
+            self.name = name
+            self.runs = list()
+            self._named_splits = dict()
+            self._split_list = list()
+            self._existing = True
 
     def __enter__(self):
         self._start = perf_counter()
