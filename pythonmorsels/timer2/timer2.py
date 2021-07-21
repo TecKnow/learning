@@ -45,6 +45,14 @@ class Timer:
             return self._named_splits[item]
 
     def split(self, name=None):
+        """Creates a sub-timer.
+
+        I'm pretty sure this would reveal some unexpected behavior if you crate a sub timer with the same name as an
+        existing timer because of the class level registry.  Split will return an existing timer from the registry but
+        it won't be able to update the parent because the constructor won't re-run.  This could be unexpected, but so
+        could having the parent of an existing timer change.  Since the requirements are unclear I'm leaving this in.
+        """
+
         if self._start is None:
             raise RuntimeError("Cannot split because parent timer is not running")
         elif name in self._named_splits:
