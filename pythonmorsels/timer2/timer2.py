@@ -36,11 +36,13 @@ class Timer:
     def split(self, name=None):
         if self._start is None:
             raise RuntimeError("Cannot split because parent timer is not running")
+        elif name in self._named_splits:
+            return self._named_splits[name]
         else:
             new_split = self.__class__(_name=name, _parent=self)
             self._split_list.append(new_split)
             if name is not None:
-                self._named_splits[name] = self.__class__()
+                self._named_splits[name] = new_split
             return new_split
 
     @property
