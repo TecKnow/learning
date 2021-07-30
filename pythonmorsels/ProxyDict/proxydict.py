@@ -9,10 +9,10 @@ class ProxyDict(UserDict, Mapping):
         super().__init__()
         self.data_writeable = ChainMap(*reversed(args))
         self.data = MappingProxyType(self.data_writeable)
-        self.maps = list(args)
+
+    @property
+    def maps(self):
+        return list(reversed(self.data_writeable.maps))
 
     def __repr__(self):
-        return f"ProxyDict({repr(self.maps)[1:-1]})"
-
-    def __str__(self):
-        return repr(self)
+        return f"ProxyDict({', '.join(repr(x) for x in self.maps)})"
