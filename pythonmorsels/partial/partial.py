@@ -24,3 +24,14 @@ class partial:
                 combined_args.append(arg)
         combined_args.extend(supplied_args)
         return self.func(*combined_args, **kwargs, **self.saved_kwargs)
+
+    def partial(self, *args, **kwargs):
+        new_args = self.saved_args + args
+        new_kwargs = self.saved_kwargs | kwargs
+        return self.__class__(self.func, *new_args, **new_kwargs)
+
+    def __repr__(self):
+        args_str = ', '.join(str(x) for x in self.saved_args)
+        kwargs_str = ', '.join(f"{k}={v}" for k, v in self.saved_kwargs.items())
+        param_str = ', '.join((args_str, kwargs_str))
+        return f"partial({self.func.__name__}({param_str})),"
