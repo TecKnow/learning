@@ -8,13 +8,26 @@ class loop_tracker:
         self.length = 0  # type: int
         self.empty_accesses = 0  # type: int
         self.underlying = iter(underlying_iterable)
-        self.first = self.EMPTY
-        self.last = self.EMPTY
+        self._first = self.EMPTY
+        self._last = self.EMPTY
         self._next = self.EMPTY
         try:
             self._next = next(self.underlying)
+            self._first = self._next
         except StopIteration:
             pass
+
+    @property
+    def first(self):
+        if self._first is self.EMPTY:
+            raise AttributeError("iterable has no first attribute (it's empty)")
+        return self._first
+
+    @property
+    def last(self):
+        if self._last is self.EMPTY:
+            raise AttributeError("no last item yet (no looping performed yet)")
+        return self._last
 
     def __len__(self) -> int:
         return self.length
@@ -27,15 +40,14 @@ class loop_tracker:
             self.empty_accesses += 1
             raise StopIteration
         else:
-            next_value = self._next
+            self._last = self._next
         try:
             self._next = next(self.underlying)
         except StopIteration as e:
             self._next = self.EMPTY
         finally:
             self.length += 1
-            return next_value
+            return self._last
 
     def is_empty(self):
         return bool(self._next is self.EMPTY)
-
