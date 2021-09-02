@@ -113,6 +113,43 @@ class MonthDelta:
         if isinstance(rhs, self.__class__):
             return self.__class__(months=(self.months - rhs.months))
 
+    def __truediv__(self, rhs):
+        if isinstance(rhs, self.__class__):
+            return self.months / rhs.months
+        else:
+            return NotImplemented
+
+    def __floordiv__(self, rhs):
+        if isinstance(rhs, self.__class__):
+            return self.months // rhs.months
+        elif isinstance(rhs, int):
+            return self.__class__(months= (self.months // rhs))
+        else:
+            return NotImplemented
+
+    def __mul__(self, rhs):
+        if isinstance(rhs, int):
+            return self.__class__(months=(rhs * self.months))
+        else:
+            return NotImplemented
+
+    def __rmul__(self, lhs):
+        if isinstance(lhs, int):
+            return self.__class__(months=(lhs * self.months))
+        else:
+            return NotImplemented
+
+    def __mod__(self, rhs):
+        if isinstance(rhs, self.__class__):
+            return self.months % rhs.months
+        elif isinstance(rhs, int):
+            return self.__class__(months=(self.months % rhs))
+        else:
+            return NotImplemented
+
+    def __neg__(self):
+        return self.__class__(months= -self.months)
+
 
 if __name__ == "__main__":
     python2_eol = Month(2020, 1)
