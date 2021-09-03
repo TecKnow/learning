@@ -37,46 +37,41 @@ class Month:
         return datetime.date(self.year, self.month, num_days)
 
     def __eq__(self, rhs):
-        if not isinstance(rhs, self.__class__):
+        if isinstance(rhs, self.__class__):
+            return (self.year, self.month) == (rhs.year, rhs.month)
+        else:
             return NotImplemented
-        return (self.year, self.month) == (rhs.year, rhs.month)
 
     def __gt__(self, rhs):
-        if not isinstance(rhs, self.__class__):
+        if isinstance(rhs, self.__class__):
+            return (self.year, self.month) > (rhs.year, rhs.month)
+        else:
             return NotImplemented
-        return (self.year, self.month) > (rhs.year, rhs.month)
 
     def __add__(self, rhs):
-        if not isinstance(rhs, MonthDelta):
-            return NotImplemented
         if isinstance(rhs, MonthDelta):
-            delta_years = trunc(rhs.months / 12)
-            delta_months = rhs.months - (12 * delta_years)
-            target_year = self.year + delta_years
-            target_month = self.month + delta_months
-            if target_month > 12:
-                target_year += 1
-                target_month -= 12
-
-            return self.__class__(target_year, target_month)
+            total_months = self.year * 12 + self.month + rhs.months
+            target_year, target_month = divmod(total_months - 1, 12)
+            return self.__class__(target_year, target_month + 1)
+        else:
+            return NotImplemented
 
     def __sub__(self, rhs):
-        if not isinstance(rhs, (self.__class__, MonthDelta)):
-            return NotImplemented
         if isinstance(rhs, self.__class__):
-            delta_months = self.month - rhs.month
-            delta_years = self.year - rhs.year
-            total_month_delta = delta_years * 12 + delta_months
-            return MonthDelta(total_month_delta)
-        if isinstance(rhs, MonthDelta):
-            delta_years = trunc(rhs.months / 12)
-            delta_months = rhs.months - (12 * delta_years)
-            target_year = self.year - delta_years
-            target_month = self.month - delta_months
-            if target_month <= 0:
-                target_year -= 1
-                target_month += 12
-            return self.__class__(target_year, target_month)
+            self_months = self.year * 12 + self.month
+            rhs_months = rhs.year * 12 + rhs.month
+            target_months = self_months - rhs_months
+            return MonthDelta(target_months)
+        elif isinstance(rhs, MonthDelta):
+            self_months = self.year * 12 + self.month
+            target_months = self_months - rhs.months
+            target_year, target_month = divmod(target_months - 1, 12)
+            return self.__class__(target_year, target_month + 1)
+        else:
+            return NotImplemented
+
+    def __format__(self, format_spec):
+        return self.first_day.__format__(format_spec)
 
 
 @total_ordering
@@ -86,26 +81,27 @@ class MonthDelta:
     months: int
 
     def __eq__(self, rhs):
-        if not isinstance(rhs, self.__class__):
+        if isinstance(rhs, self.__class__):
+            return self.months == rhs.months
+        else:
             return NotImplemented
-        return self.months == rhs.months
 
     def __gt__(self, rhs):
-        if not isinstance(rhs, self.__class__):
+        if isinstance(rhs, self.__class__):
+            return self.months > rhs.months
+        else:
             return NotImplemented
-        return self.months > rhs.months
 
     def __add__(self, rhs):
-        if not isinstance(rhs, (self.__class__, Month)):
-            return NotImplemented
-        elif isinstance(rhs, self.__class__):
+        if isinstance(rhs, self.__class__):
             return self.__class__(months=(self.months + rhs.months))
         elif isinstance(rhs, Month):
-            delta_years = trunc(self.months / 12)
-            delta_months = self.months - (delta_years * 12)
-            target_year = rhs.year + delta_years
-            target_month = rhs.month + delta_months
-            return Month(target_year, target_month)
+            rhs_months = rhs.year * 12 + rhs.month
+            target_months = rhs_months + self.months
+            target_year, target_month = divmod(target_months-1, 12)
+            return Month(target_year, target_month+1)
+        else:
+            return NotImplemented
 
     def __sub__(self, rhs):
         if not isinstance(rhs, self.__class__):
@@ -123,7 +119,7 @@ class MonthDelta:
         if isinstance(rhs, self.__class__):
             return self.months // rhs.months
         elif isinstance(rhs, int):
-            return self.__class__(months= (self.months // rhs))
+            return self.__class__(months=(self.months // rhs))
         else:
             return NotImplemented
 
@@ -133,11 +129,7 @@ class MonthDelta:
         else:
             return NotImplemented
 
-    def __rmul__(self, lhs):
-        if isinstance(lhs, int):
-            return self.__class__(months=(lhs * self.months))
-        else:
-            return NotImplemented
+    __rmul__ = __mul__
 
     def __mod__(self, rhs):
         if isinstance(rhs, self.__class__):
@@ -148,7 +140,7 @@ class MonthDelta:
             return NotImplemented
 
     def __neg__(self):
-        return self.__class__(months= -self.months)
+        return self.__class__(months=-self.months)
 
 
 if __name__ == "__main__":
