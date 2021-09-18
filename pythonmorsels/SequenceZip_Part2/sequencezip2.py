@@ -28,3 +28,21 @@ class SequenceZip(Sequence):
         sequence_content = (f"{s!r}" for s in self._sequences)
         sequence_string = ', '.join(sequence_content)
         return f"{self.__class__.__name__}({sequence_string})"
+
+    def __setitem__(self, key, value):
+        if not len(value) == len(self._sequences):
+            raise TypeError(f"expected a sequence of {len(self)} items")
+        if key < 0:
+            key = len(self) + key
+
+        if key >= len(self):
+            raise IndexError("Index out of range")
+        for count, item in enumerate(value):
+            self._sequences[count][key] = item
+
+    def __delitem__(self, key):
+        if key < 0:
+            key = len(self) + key
+        for elem in self._sequences:
+            del elem[key]
+
