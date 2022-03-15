@@ -1,7 +1,6 @@
 import dataclasses
 from dataclasses import dataclass
 from typing import ClassVar, Optional
-from pprint import pprint
 from math import prod
 
 
@@ -20,6 +19,8 @@ class Inventory:
         "ai_cores": 0.1,
         "real_estate": 0.005,
     }
+    material_count_per_unit_volume: ClassVar[dict[str, int]] = {material: int(1 / size) for material, size in
+                                                                sizes.items()}
     water: float = 0
     energy: float = 0
     food: float = 0
@@ -76,7 +77,8 @@ class Industry:
             candidate_inventories = (
                 dataclasses.replace(
                     inventory,
-                    **{production_factor_item: getattr(inventory, production_factor_item) + 1})
+                    **{production_factor_item: getattr(inventory, production_factor_item) +
+                                               Inventory.material_count_per_unit_volume[production_factor_item]})
                 for
                 production_factor_item in
                 production_factor_items)
@@ -93,7 +95,6 @@ class Industry:
             if next_inventory.size > space:
                 return inventory
             inventory = next_inventory
-
 
 
 class Industries:
@@ -220,6 +221,6 @@ if __name__ == "__main__":
     test_inventory = Inventory(hardware=9300, robots=726, ai_cores=6270, real_estate=230400)
     test_mult = Industries.Agriculture.city_multiplier(test_inventory)
     print(test_mult)
-    target_inventory= Industries.Agriculture.improve_until(2700)
+    target_inventory = Industries.Agriculture.improve_until(2700)
     print(target_inventory)
     print(Industries.Agriculture.city_multiplier(target_inventory))
