@@ -1,6 +1,7 @@
 import dataclasses
-from typing import ClassVar, Optional
 from dataclasses import dataclass
+from typing import ClassVar, Optional
+from pprint import pprint
 from math import prod
 
 
@@ -69,14 +70,30 @@ class Industry:
         return city_mult
 
     def improve(self, inventory: Optional[Inventory] = None) -> Inventory:
-        inventory = inventory if inventory is not None else Inventory()
-        production_factor_items = set("hardware robots ai_cores real_estate".split())
-        candidate_inventories = (
-            dataclasses.replace(inventory, **{production_factor_item: getattr(inventory, production_factor_item) + 1}) for
-            production_factor_item in
-            production_factor_items)
+        while True:
+            inventory = inventory if inventory is not None else Inventory()
+            production_factor_items = set("hardware robots ai_cores real_estate".split())
+            candidate_inventories = (
+                dataclasses.replace(
+                    inventory,
+                    **{production_factor_item: getattr(inventory, production_factor_item) + 1})
+                for
+                production_factor_item in
+                production_factor_items)
+            candidate_inventories = ((self.city_multiplier(candidate),
+                                      candidate.size,
+                                      candidate) for candidate in candidate_inventories)
+            sorted_candidates = sorted(candidate_inventories, key=lambda x: x[0:2], reverse=True)
+            inventory = sorted_candidates[0][2]
+            yield inventory
 
-        yield inventory
+    def improve_until(self, space: int, inventory: Optional[Inventory] = None) -> Inventory:
+        inventory = inventory if inventory is not None else Inventory()
+        for next_inventory in self.improve(inventory):
+            if next_inventory.size > space:
+                return inventory
+            inventory = next_inventory
+
 
 
 class Industries:
@@ -200,7 +217,9 @@ class Industries:
 
 
 if __name__ == "__main__":
-    # test_mult = Industries.Agriculture.city_multiplier(9300, 726, 6270, 230400)
-    # print(6 * test_mult)
     test_inventory = Inventory(hardware=9300, robots=726, ai_cores=6270, real_estate=230400)
-    print(next(Industries.Agriculture.improve(test_inventory)))
+    test_mult = Industries.Agriculture.city_multiplier(test_inventory)
+    print(test_mult)
+    target_inventory= Industries.Agriculture.improve_until(2700)
+    print(target_inventory)
+    print(Industries.Agriculture.city_multiplier(target_inventory))
