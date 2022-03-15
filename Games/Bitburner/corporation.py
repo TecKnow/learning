@@ -1,5 +1,5 @@
 import dataclasses
-from typing import ClassVar
+from typing import ClassVar, Optional
 from dataclasses import dataclass
 from math import prod
 
@@ -33,8 +33,7 @@ class Inventory:
 
     @property
     def size(self):
-        return sum(self.sizes[material] * amount for  material, amount in dataclasses.asdict(self).items())
-
+        return sum(self.sizes[material] * amount for material, amount in dataclasses.asdict(self).items())
 
 
 @dataclass(frozen=True)
@@ -47,15 +46,12 @@ class Industry:
     ai_factor: float
     real_estate_factor: float
     advertising_factor: float
-    creates_products: bool = False
+    makes_products: bool = False
 
     def city_multiplier(
             self,
-            hardware_quantity: float,
-            robots_quantity: float,
-            ai_quantity: float,
-            real_estate_quantity: float,
-    ):
+            inventory: Inventory
+    ) -> float:
         # This is from the function `calculateProductionFactor()` at the following URL
         # https://github.com/danielyxie/bitburner/blob/dev/src/Corporation/Industry.ts
 
@@ -63,14 +59,24 @@ class Industry:
         amount_addition = 1
         term_power = 0.73
 
-        real_estate_power = pow(quantity_multiplier * real_estate_quantity + amount_addition, self.real_estate_factor)
-        hardware_power = pow(quantity_multiplier * hardware_quantity + amount_addition, self.hardware_factor)
-        robotics_power = pow(quantity_multiplier * robots_quantity + amount_addition, self.robotics_factor)
-        ai_power = pow(quantity_multiplier * ai_quantity + amount_addition, self.ai_factor)
+        real_estate_power = pow(quantity_multiplier * inventory.real_estate + amount_addition, self.real_estate_factor)
+        hardware_power = pow(quantity_multiplier * inventory.hardware + amount_addition, self.hardware_factor)
+        robotics_power = pow(quantity_multiplier * inventory.robots + amount_addition, self.robotics_factor)
+        ai_power = pow(quantity_multiplier * inventory.ai_cores + amount_addition, self.ai_factor)
         power_total = prod((real_estate_power, hardware_power, robotics_power, ai_power))
         city_mult = pow(power_total, term_power)
         city_mult = max(1, city_mult)
         return city_mult
+
+    def improve(self, inventory: Optional[Inventory] = None) -> Inventory:
+        inventory = inventory if inventory is not None else Inventory()
+        production_factor_items = set("hardware robots ai_cores real_estate".split())
+        candidate_inventories = (
+            dataclasses.replace(inventory, **{production_factor_item: getattr(inventory, production_factor_item) + 1}) for
+            production_factor_item in
+            production_factor_items)
+
+        yield inventory
 
 
 class Industries:
@@ -128,9 +134,10 @@ class Industries:
         real_estate_factor=0.15,
         science_factor=0.75,
         hardware_factor=0.15,
-        robotics_factor=0,
-        ai_factor=0,
-        advertising_factor=0
+        robotics_factor=0.2,
+        ai_factor=0.15,
+        advertising_factor=0.2,
+        makes_products=True
     )
 
     # Chemical = Industry(
@@ -196,4 +203,4 @@ if __name__ == "__main__":
     # test_mult = Industries.Agriculture.city_multiplier(9300, 726, 6270, 230400)
     # print(6 * test_mult)
     test_inventory = Inventory(hardware=9300, robots=726, ai_cores=6270, real_estate=230400)
-    print(f"{test_inventory=}, {test_inventory.size=}")
+    print(next(Industries.Agriculture.improve(test_inventory)))
