@@ -218,9 +218,6 @@ class Industries:
 
 
 if __name__ == "__main__":
-    test_inventory = Inventory(hardware=9300, robots=726, ai_cores=6270, real_estate=230400)
-    test_mult = Industries.Agriculture.city_multiplier(test_inventory)
-    print(test_mult)
-    target_inventory = Industries.Agriculture.improve_until(2700)
+    target_inventory = Industries.Energy.improve_until(10000)
     print(target_inventory)
-    print(Industries.Agriculture.city_multiplier(target_inventory))
+    print(Industries.Energy.city_multiplier(target_inventory))
