@@ -5,7 +5,7 @@
       <sourceFolder url="file://$MODULE_DIR$/pythonmorsels/mutablestring2" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.9 (learning)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.10 (learning)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">
