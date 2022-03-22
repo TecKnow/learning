@@ -8,4 +8,7 @@ if __name__ == "__main__":
             for z in range(0, precision + 1):
                 if x * increment + y * increment + z * increment <= 1:
                     included_area += 1
-    print(included_area / total_area)
+    print(result := included_area / total_area)
+    choices = [1 / 2, 1 / 3, 1 / 4, 1 / 6]
+    variances = [x - result for x in choices]
+    print(variances)
