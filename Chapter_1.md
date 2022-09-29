@@ -84,3 +84,5 @@ As above, but also let the following:
 Then:
 
 $P(O, B, M, S| H_2) \gg P(O, B,M, S | H_1)$
+
+$\frac{{P\left( {O,B,M,S|{H_2}} \right)}}{{P\left( {O,B,M,S|{H_1}} \right)}}$ = a large number
