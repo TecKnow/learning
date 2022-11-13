@@ -10,7 +10,7 @@
 
 >  1. What is the probability of rolling two six-sided dice and getting a value greater than 7?
 
-The most straightforward way to do this is to enumerate the set of all possible results, called $\Omega$ and in this case containing all possible rolls of 2d6.  count the ones where the toal is 7 or greater, and determine the proportion.  This is tedious to do by hand but can be calculated with the help of a spreadsheet, or in this case the Python code below.
+The most straightforward way to do this is to enumerate the set of all possible results, called $\Omega$ and in this case containing all possible rolls of 2d6.  count the ones where the toal is greater than 7, and determine the proportion.  This is tedious to do by hand but can be calculated with the help of a spreadsheet, or in this case the Python code below.
 
 ```Python
 from itertools import product
@@ -32,7 +32,7 @@ The answer is $\frac{5}{12}$
 
 >  2. What is the probability of rolling three six-sided dice and getting a valuegreater than 7?
 
-The most straightforward way to do this is to enumerate the set of all possible results, called $\Omega$ and in this case containing all possible rolls of 3d6.  count the ones where the toal is 7 or greater, and determine the proportion.  This is tedious to do by hand but can be calculated with the help of a spreadsheet, or in this case the Python code below.
+The most straightforward way to do this is to enumerate the set of all possible results, called $\Omega$ and in this case containing all possible rolls of 3d6.  count the ones where the toal is greater than 7, and determine the proportion.  This is tedious to do by hand but can be calculated with the help of a spreadsheet, or in this case the Python code below.
 
 ```Python
 from itertools import product
