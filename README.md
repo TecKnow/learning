@@ -4,3 +4,4 @@ My answers to the exercises from Bayesian Statistics the Fun Way by Will Kurt
 * [Chapter 1: Bayesian Thinking and Everyday Reasoning](/Chapter_1.md)
 * [Chapter 2: Measuring Uncertainty](/Chapter_2.ipynb)
 * [Chapter 3: The Logic of Uncertainty](/Chapter_3.ipynb)
+* [Chapter 4: Creating a Binomial Probability Distribution](/Chapter_4.ipynb)
