@@ -12,8 +12,8 @@ My answers to the exercises from Bayesian Statistics the Fun Way by Will Kurt
 
 ## Part 2: Bayesian Probability and Prior Probabilities
 
-- Chapter 6: Conditional Probability
-- Chapter 7: Bayes' Theorem with Lego
+- [Chapter 6: Conditional Probability](/Chapter_6.ipynb)
+- [Chapter 7: Bayes' Theorem with Lego](/Chapter_7.ipynb)
 - Chapter 8: The Prior, Likelihood, and Posterior of Bayes' Theorem
 - Chapter 9: Bayesian Priors and Working with Probability Distributions
 
