@@ -21,7 +21,7 @@ My answers to the exercises from Bayesian Statistics the Fun Way by Will Kurt
 
 - Chapter 10: Introduction to Averaging and Parameter Estimation
 - Chapter 11: Measuring the spread of Our Data
-- Chapter 12: The Normal Distribution
+- [Chapter 12: The Normal Distribution](/Chapter_12.ipynb)
 - Chapter 13: Tools of Parameter Estimation: The PDF, CDF, and Quantile Function
 - Chapter 14: Parameter Estimation with Prior Probabilities
 
