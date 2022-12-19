@@ -22,13 +22,13 @@ My answers to the exercises from Bayesian Statistics the Fun Way by Will Kurt
 - [Chapter 10: Introduction to Averaging and Parameter Estimation](/chapter_10.ipynb)
 - [Chapter 11: Measuring the spread of Our Data](/Chapter_11.ipynb)
 - [Chapter 12: The Normal Distribution](/Chapter_12.ipynb)
-- Chapter 13: Tools of Parameter Estimation: The PDF, CDF, and Quantile Function
-- Chapter 14: Parameter Estimation with Prior Probabilities
+- [Chapter 13: Tools of Parameter Estimation: The PDF, CDF, and Quantile Function](/Chapter_13.ipynb)
+- [Chapter 14: Parameter Estimation with Prior Probabilities](/Chapter_14.ipynb)
 
 ## Part 4: Hypothesis Testing: The Heart of Statistics
 
-- Chapter 15: From Parameter Estimation to Hypothesis Testing: Building a Bayesian A/B Test
-- Chapter 16: Introduction to the Bayes factor and Posterior Odds: The Competition of Ideas
-- Chapter 17: Bayesian Reasoning in the Twilight Zone
-- Chapter 18: When Data Doesn't Convince You
-- Chapter 19: From Hypothesis Testing to Parameter Estimation
+- [Chapter 15: From Parameter Estimation to Hypothesis Testing: Building a Bayesian A/B Test](/Chapter_15.ipynb)
+- [Chapter 16: Introduction to the Bayes factor and Posterior Odds: The Competition of Ideas](/Chapter_16.ipynb)
+- [Chapter 17: Bayesian Reasoning in the Twilight Zone](/Chapter_17.ipynb)
+- [Chapter 18: When Data Doesn't Convince You](/Chapter_18.ipynb)
+- [Chapter 19: From Hypothesis Testing to Parameter Estimation](/Chapter_19.ipynb)
