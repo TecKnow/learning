@@ -1,13 +1,16 @@
 import logging
 from string import ascii_lowercase
+import xmlrpc.client
 
 logging.basicConfig(level=logging.DEBUG)
 
 logger = logging.getLogger(__name__)
 
 URL: str = "http://www.pythonchallenge.com/pc/return/disproportional.html"
+program_URL = "http://www.pythonchallenge.com/pc/phonebook.php"
 
-phonewords_transtable = str.maketrans(ascii_lowercase, "22233344455566677778889999")
+EVIL_NAME = "Bert"
 
 if __name__=="__main__":
-    print("disproportional".translate(phonewords_transtable))
+    server_proxy = xmlrpc.client.ServerProxy(program_URL)
+    print(server_proxy.phone("Bert"))
