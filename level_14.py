@@ -1,7 +1,7 @@
 """Python challenge level 14: walk around
 
 Solution: uzi
-Distractors: cat"""
+Distractors: cat, bit"""
 
 import logging
 from itertools import chain
