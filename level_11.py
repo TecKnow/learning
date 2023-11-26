@@ -1,9 +1,13 @@
-import requests
+"""Python challenge level 11: odd even
+
+Solution: evil
+"""
+
 import logging
 from pathlib import Path
+
+import requests
 from PIL import Image
-from itertools import batched, chain
-from math import ceil, floor
 
 TMP = Path("/tmp")
 IMAGEFILE_PATH = TMP / "cave.jpg"
@@ -19,17 +23,14 @@ IMAGE_URL: str = "http://www.pythonchallenge.com/pc/return/cave.jpg"
 
 
 def _load_data():
-    """Ths should download the image file to be worked on
-
-    For reasons unknown, unlike all the other data files this one returns
-    401 forbidden when accessed by the requests library.  So instead I had
-    to download the image to the target location manually."""
     if not IMAGEFILE_PATH.exists():
         logger.info("image file not found, attepmting to download")
-        IMAGEFILE_OBJ = IMAGEFILE_PATH.open("wb")
-        IMAGE_DATA = requests.get(IMAGE_URL).content
-        IMAGEFILE_OBJ.write(IMAGE_DATA)
-        IMAGEFILE_OBJ.close()
+        imagefile_obj = IMAGEFILE_PATH.open("wb")
+        image_data = requests.get(
+            IMAGE_URL, auth=("huge", "file"),
+            timeout=30).content
+        imagefile_obj.write(image_data)
+        imagefile_obj.close()
     logger.info("Found existing file")
 
 
@@ -40,7 +41,7 @@ if __name__ == "__main__":
     image_pixels = list(im.getdata())
     evens_pixels: list[tuple[int, int, int]] = list()
     odds_pixels: list[tuple[int, int, int]] = list()
-    
+
     evens_pixels = image_pixels[::2]
     odds_pixels = image_pixels[1::2]
     odds_image = Image.new(im.mode, im.size)

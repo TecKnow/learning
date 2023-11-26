@@ -1,3 +1,13 @@
+"""Python challenge level 10: What are you looking at?
+
+Solution:  5808
+
+len(a[30])=?
+
+sequence.txt:
+a= [1, 11, 21, 1211, 111221,
+"""
+
 
 import logging
 logging.basicConfig(level=logging.DEBUG)
@@ -5,6 +15,7 @@ logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 URL: str = "http://www.pythonchallenge.com/pc/return/bull.html"
+SEQUENCE_URL: str = "http://www.pythonchallenge.com/pc/return/sequence.txt"
 
 _look_and_say_terms = ['1', '11']
 

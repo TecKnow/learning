@@ -1,4 +1,15 @@
+"""Python challenge level 9: connect the dots
 
+Solution:  bull
+
+To see the solutions to the previous level, replace pc with pcc and add :un:pw
+
+i.e. go to: http://www.pythonchallenge.com/pcc/return/good.html:huge:file
+
+Join us at the IRC: irc.freenode.net #pythonchallenge
+
+first+second=?
+"""
 import tkinter as tk
 import logging
 logging.basicConfig(level=logging.DEBUG)

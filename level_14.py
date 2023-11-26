@@ -1,3 +1,8 @@
+"""Python challenge level 14: walk around
+
+Solution: uzi
+Distractors: cat"""
+
 import logging
 from itertools import chain
 from pathlib import Path
@@ -13,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 URL: str = "http://www.pythonchallenge.com/pc/return/italy.html"
 IMAGE_URL = "http://www.pythonchallenge.com/pc/return/wire.png"
+FALSE_SOLUTION_URL = "http://www.pythonchallenge.com/pc/return/cat.html"
 IMAGE_AUTH = ("huge", "file")
 
 INPUT_PATH = Path("/tmp/wire.png")
