@@ -1,6 +1,6 @@
 """Python challenge level 17: eat?
 
-Solution:  violin
+Solution:  baloons
 
 The inset image for this problem is the image from level 4: follow the chain.
 
@@ -69,9 +69,17 @@ def stage_2(url_encoded_string: str) -> bytes:
 def stage_3(bzip_bytes: str) -> str:
     return bz2.decompress(bzip_bytes).decode('utf-8')
 
+
 def stage_4(name: str = "Leopold") -> str:
     server_proxy = xmlrpc.client.ServerProxy(PHONEBOOK_URL)
     return server_proxy.phone(name)
+
+
+def stage_5():
+    r = requests.get(LEOPOLD_URL, timeout=30, auth=("large", "file"), cookies={
+                     "info": "the flowers are on their way"})
+    return r.text
+
 
 if __name__ == "__main__":
     if STORED_COOKIE_WORD is None:
@@ -84,3 +92,4 @@ if __name__ == "__main__":
         DECOMPRESSED_BZIP_STRING = stage_3(DECODED_COOKIE_WORD)
         print(DECOMPRESSED_BZIP_STRING)
     print(stage_4())
+    print(stage_5())
